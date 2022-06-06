@@ -10,7 +10,7 @@ tabBED <- tabItem(tabName = "BEDblock",
     fluidRow(  
       column(width=8,
         box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
-                title=boxHelp(ID="msg_coordinateFiles_chooseCoordinates",title="From file"),
+                title=boxHelp(ID="msg_coordinateFiles_chooseCoordinates",title="New ROI"),
 
           radioButtons("importROImainchoice",label="Select how to get a new ROI",choices=c(
                                   "Load a file of genomic coordinates (bed/gtf/gff)"="fromfile",

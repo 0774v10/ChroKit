@@ -188,8 +188,6 @@ tabGENOMICS<-tabItem (tabName = "GENOMICSblock",
 
             tabBox(width=12,
               tabPanel("Variables",
-                HTML("<br>"),
-                actionButton("confirmUpdateDigitalHeat1", "Update plot"),
                 HTML("<br><br>"),
                 #ROI to select that guide the heatmap (master ROI)
                 HTML("<b>Master ROI(s):</b>"),
@@ -220,14 +218,14 @@ tabGENOMICS<-tabItem (tabName = "GENOMICSblock",
                 HTML("<b>Number of bins:</b>"),
                 numericInput(inputId = 'binsDigitalHeat',label=NULL,min = 1, max = 50, step = 1,value=10),
                 #check box for strand-specific overlap:
-                checkboxInput("StrandSpecOverlap", label="Strand-specific overlaps",value = FALSE, width = NULL)
-                
+                checkboxInput("StrandSpecOverlap", label="Strand-specific overlaps",value = FALSE, width = NULL),
+                HTML("<br>"),
+                actionButton("confirmUpdateDigitalHeat1", "Update plot")
 
                 
               ),
               tabPanel("Advanced",
-                HTML("<br>"),
-                actionButton("confirmUpdateDigitalHeat2", "Update plot"),
+                
                 HTML("<br><br>"),
                 HTML("<b>Random sample of genomic ranges to show:</b>"),
                 numericInput(inputId = 'sampleRandomDigitalHeat',label=NULL,min = 0, max = 0, step = 1000,value=0),
@@ -235,7 +233,7 @@ tabGENOMICS<-tabItem (tabName = "GENOMICSblock",
                 radioButtons("optioncolorsforDigitalHeat",label="Select colors:",choiceNames=c("global color","custom colors"),choiceValues=c("global","custom"),selected="global"),
                 uiOutput("showcolorsDigitalheat"),
 
-                checkboxInput("FracToPercDigitalHeat", label="positional overlap %",value = TRUE, width = NULL)
+                checkboxInput("FracToPercDigitalHeat", label="positional overlap %",value = TRUE, width = NULL),
                 #HTML("<b>Universe for overlaps:</b>"),
                 #radioButtons("chooseOrderingDigitalHeat",label=NULL,choices=c("All acessible sites"="global","Sites of this ROI"="local")),
                 # selectInput("distmethodDigitalHeat",label="Distance method:",c("Euclidean"="euclidean",
@@ -246,7 +244,8 @@ tabGENOMICS<-tabItem (tabName = "GENOMICSblock",
                 #                                                                  "Complete"="complete",
                 #                                                                  "Median"="median",
                 #                                                                  "Centroid"="centroid")),
-                
+                HTML("<br>"),
+                actionButton("confirmUpdateDigitalHeat2", "Update plot")
               )        
             )
 
@@ -341,8 +340,6 @@ tabGENOMICS<-tabItem (tabName = "GENOMICSblock",
             tabBox(width=12,
               tabPanel("Variables",
                 HTML("<br>"),
-                actionButton("confirmUpdateAnalogHeat", "Update plot"),
-                HTML("<br><br>"),
                 HTML("<b>Select ROI(s):</b>"),
                 wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 200px; max-width: 300px; background-color: #ffffff;",
                   checkboxGroupInput("ROIsForAnalogHeat",NULL,NULL)
@@ -363,40 +360,24 @@ tabGENOMICS<-tabItem (tabName = "GENOMICSblock",
                 uiOutput("clusterHClustMethodAnalogHeat"),
                 uiOutput("clusterKstartsAnalogHeat"),
                 uiOutput("clusterKiterationsAnalogHeat"),
-
-                numericInput(inputId = 'binsAnalogHeat',label="Number of bins:",min = 1, max = 200, step = 1,value=50)
-
-            
-                # HTML("<b>New ROI from heatmap:</b>"),
-
-                #,
-                #uiOutput("confirmImportROIfromAnalogHeat_out")
-                # textInput("newROIfromAnalogHeat",NULL,value="",placeholder = "my_ROI"),
-                # actionButton("confirmImportROIfromAnalogHeat", "Import ROI")
-
+                numericInput(inputId = 'binsAnalogHeat',label="Number of bins:",min = 1, max = 200, step = 1,value=50),
+                HTML("<br>"),
+                actionButton("confirmUpdateAnalogHeat", "Update plot")
               ),
 
               tabPanel("Advanced",
-                HTML("<br>"),
-                actionButton("confirmUpdateAnalogHeat2", "Update plot"),
-                HTML("<br><br>"),    
+                HTML("<br>"),    
                 numericInput(inputId = 'sampleRandomAnalogHeat',label="Random sample of genomic ranges to show:",min = 0, max = 0, step = 1000,value=0),
-
-
                 checkboxInput("Log2BoxAnalogHeat", label="log2",value = FALSE, width = NULL),
-
-
                 HTML("<b>Quantile threshold</b>"),
                 radioButtons("chooseQuantileMethodAnalogHeat",label=NULL,choices=c("Uniform"="allBAM","Individual"="eachBAM")),
                 sliderInput('quantileThreshAnalogHeat',label=NULL,min = 0.1, max = 1, value = 0.9,step=0.002),
-          
                 radioButtons("optioncolorsforAnalogHeat",label="Select colors:",choiceNames=c("default color","custom colors"),choiceValues=c("global","custom"),selected="global"),
-                
                 uiOutput("showcolorsheat"),
-
                 HTML("<b></b>"),
-                checkboxInput("GroupColorsAnalogHeat", label="Group colors (boxes)",value = FALSE, width = NULL)
-
+                checkboxInput("GroupColorsAnalogHeat", label="Group colors (boxes)",value = FALSE, width = NULL),
+                HTML("<br>"),
+                actionButton("confirmUpdateAnalogHeat2", "Update plot")
               )
               
             )
@@ -720,7 +701,139 @@ tabGENOMICS<-tabItem (tabName = "GENOMICSblock",
 
 
       )
+    ),
+
+
+
+
+
+
+    tabPanel("GO analyses",
+      fluidRow (
+        
+        column(width=3,
+
+          box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
+            title=boxHelp(ID="msg_goAnalysis_parameters",title="Parameters"),
+
+            tabBox(width=12,
+              tabPanel("Variables",
+                HTML("<br><b>Select the source</b></br>"),
+                radioButtons("chooseSourceGO",label=NULL,choices=c(
+                              "From ROI"="fromROI",
+                              "From gene list"="fromGeneList"
+                            )),
+                #here, the UI (checkboxGroup if from ROI, textInput if from custom list)
+                uiOutput("viewSelectGenesGO"),
+                #here, put choice of kind of ID of the genes (symbols, etrez, ensembl): only symbols if database (promoters) is not present
+                uiOutput("additionalparametersGO"),
+                uiOutput("chooseWindowROIGO"),
+                #here, we serve all possible genesets using GenesetsGMT global variable
+                HTML("<b>Select signature(s):</b>"),
+                wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 150px; max-width: 300px; background-color: #ffffff;",
+                  checkboxGroupInput(inputId="selectedGenesetsGO",label=NULL,choices=names(GenesetsGMT))
+                ),
+
+                #radiobutton to choose if ranking or clustering the results
+                uiOutput("chooseOrderingGO_widget"),
+                
+                # radioButtons("chooseOrderingGO","How to order results",choices=c(
+                #                             "Ranking best padj"="ranking",
+                #                             "Custering"="clustering"
+                #                       ),selected="ranking") ,
+                #if "clsutering" is selected, show radiobutton of the type of clustering ("kmean" or "hierarchical")
+                uiOutput("clustertypeGO_widget"),
+                uiOutput("clusternumbershowGO_widget"),
+                uiOutput("clusterHDistMethodGO_widget"),
+                uiOutput("clusterHClustMethodGO_widget"),
+                uiOutput("clusterKstartsGO_widget"),
+                uiOutput("clusterKiterationsGO_widget"),
+
+
+                HTML("<b>Min signature size:</b>"),
+                numericInput(inputId = 'minSizeGO',label=NULL,min = 1, step = 5,value=15),
+                HTML("<b>Max signature size:</b>"),
+                numericInput(inputId = 'maxSizeGO',label=NULL,min = 1, step = 5,value=500),              
+
+                actionButton("doTheGO","GO!")
+              ),
+
+              tabPanel("Filtering",
+                #here, sliderInputs of various thresholds for the analyses
+                sliderInput('scaleQuantileGO',label="Quantile threshold for padj colorscale",min = 0.1, max = 1, value = 0.9,step=0.002),
+                #geneRatio:
+                sliderInput('quantileGeneRatioGO',label="Gene ratio threshold:",min = 0, max = 1, value = 0,step=0.05),
+                #-log10Padj:
+                sliderInput('log10padjGO',label="-log10 padj threshold:",min = 1, max = 50, value = 2,step=1),
+                #top n statistically significant:
+                sliderInput('topNGO',label="Top significant hits:",min = 1, max = 100, value = 10,step=1),
+                #color scale
+                selectInput("colorScaleGO",label="Choose a color scale:",c("white/red"="white_red4",
+                                                              "white/blue"="white_blue",
+                                                              "white/green"= "white_green4"))
+              )
+
+              
+            )
+
+          )
+
+
+
+        ),
+        
+
+
+        column(width=9,
+          fluidRow(
+            #put plot (barplot/heatmap)
+            box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
+              title=boxHelp(ID="msg_goAnalysis_goPlot",title="GO plot"),
+
+              fluidRow(
+                column(width=9,#style='padding:0px;',
+                  fluidRow(
+                    column(width=3,
+                      plotOutput("plotMaterialLeft")
+                    ),
+                    column(width=9,
+                      plotOutput("plotOntology",click="GO_click",brush=brushOpts(id="GO_brush",delayType="debounce",delay=300,resetOnNew=TRUE)),#,height=750,width=600),
+                      plotOutput("textNameGO"),
+                      htmlOutput("saveheatmapGO")
+                    #width=600),
+                    )
+                  )
+                ),
+                column(width=3,#style='padding:0px;',
+                  plotOutput("colorScaleGO",height=100),
+                  uiOutput("showTermClicked"),
+                  uiOutput("showGenesClicked")
+                ) 
+              )
+
+            )
+            
+          ),
+
+          fluidRow(
+            #put table to download
+            box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
+              title=boxHelp(ID="msg_goAnalysis_goTable",title="GO table"),
+
+              wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; background-color: #ffffff;",
+                dataTableOutput("tableOntology")
+              ),
+              uiOutput("tableGOdownloadButton")
+            )
+          
+          )
+        )
+
+
+      )
     )
+
+
 
 
   )

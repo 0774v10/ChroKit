@@ -8,7 +8,6 @@ tabROI<-tabItem (tabName = "ROIblock",
           HTML("<b>Minimum number of bp to consider for overlaps:</b>"),
           numericInput(inputId = 'minOverlapNEWROI',label=NULL,min = 1, step = 5,value=1),
           checkboxInput("StrandSpecOverlapNEWROI", label="Strand-specific overlaps",value = FALSE, width = NULL),
-
           textInput("ROIname",label="Name of the ROI",placeholder="type new ROI name here"),
           # resize width from the center (work also on the summit, when BAM is available)
           #button for "create ROI" (check if some BED files are selected, otherwise msg in logs: not possible)
@@ -25,38 +24,17 @@ tabROI<-tabItem (tabName = "ROIblock",
                 checkboxGroupInput("selectedROIs",NULL,NULL)
               ),
               # radiobutton for union/intersection
-              radioButtons("choiceROI",label="Criteria for building the aggregated reference ROI:" ,
-                                        choices=c("Intersection"="intersection",
-                                                  "Union"="union"),
-                                        selected="union"
-                          )            
+              uiOutput("RadiobuttonStartingROI")          
             ),
             column(width=4,
-              HTML("<h4><b>...that overlaps with contrast ROI:</b></h4>"),
-              HTML("Select ROI(s):"),
-              wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 400px; max-width: 300px; background-color: #ffffff;",
-                checkboxGroupInput("overlapROIs",NULL,NULL)
-              ),
-              radioButtons("choiceoverlapROI",label="Criteria for building the aggregated contrast ROI:" ,
-                                      choices=c("Intersection of the contrast ROIs"="stringent",
-                                                #"Overlap of the contrast ROIs"="permissive",
-                                                "Union of the contrast ROIs"="allofthem"),
-                                      selected="allofthem"
-              )            
-            
+              HTML("<h4><b>...that overlaps with:</b></h4>"),  
+              uiOutput("columnOverlap"),
+              uiOutput("overlapcriteria") 
             ),
             column(width=4,
-              HTML("<h4><b>...that doesn't overlap with contrast ROI:</b></h4>"),
-              HTML("Select ROI(s):"),
-              wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 400px; max-width: 300px; background-color: #ffffff;",
-                checkboxGroupInput("notoverlapROIs",NULL,NULL)
-              ),
-              radioButtons("choicenotoverlapROI",label="Criteria for building the aggregated contrast ROI:" ,
-                                      choices=c("Intersection of the contrast ROIs"="intersection",
-                                                "Union of the contrast ROIs"="union"),
-                                      selected="union"
-              )            
-            
+              HTML("<h4><b>...that doesn't overlap with:</b></h4>"),
+              uiOutput("columnNotOverlap"),
+              uiOutput("notoverlapcriteria")
             )
           )  
 
@@ -76,23 +54,19 @@ tabROI<-tabItem (tabName = "ROIblock",
           selectInput("selectROItoresize",label="Select ROI to resize:",NULL),
 
           #other options if needed
+          radioButtons("chooseResizeType",label=NULL,choices=c(
+                              "Resize using fixed value"="fixedVal",
+                              "Resize using percentage of range width"="percentageVal"
+                            ),selected="fixedVal"),   
 
-          fluidRow(
-            column(width=4,HTML("<b>Upstream</b>")),
-            column(width=4),
-            column(width=4,HTML("<b>Downstream</b>"))
-          ),
-          fluidRow(
-            column(width=4,
-              numericInput(inputId = 'sliderUpstreamROI',label=NULL,min = 0, max = 20000, step = 50,value=1000) 
-            ),
-            column(width=4,
-              HTML("<h4>Range center</h4>")
-            ),
-            column(width=4,
-              numericInput(inputId = 'sliderDownstreamROI',label=NULL,min = 0, max = 20000, step = 50,value=1000) 
-            )
-          ),
+          radioButtons("choosePointResize",label="Choose fixed point for resize:",choices=c(
+                              "From midpoint/TSS"="fromMid",
+                              "From starts"="fromStart",
+                              "From ends"="fromEnd"
+                            ),selected="fromMid"),
+          
+          uiOutput("showFixedMenuResize"),
+
           textInput("ROInameResize",label="Name of the ROI",placeholder="type new ROI name here"),
           actionButton("resizeROI","Create ROI")
         ),
@@ -184,13 +158,12 @@ tabROI<-tabItem (tabName = "ROIblock",
         box(width=4,collapsible = TRUE,status = "primary",solidHeader = TRUE,
           title=boxHelp(ID="msg_modifyRois_pattern",title="Extract patterns"),
 
-          radioButtons("choiceWherePattern",label="Choose where to search for the pattern:" ,
-                                   choices=c("From a ROI"="fromROI",
-                                             "From the entire genome (SLOW!)"="fromGenome"),
-                                   selected="fromROI"
-          ),
-          #selectInput("selectROItoExtractPattern",label="ROI to extract pattern from:",NULL),
-          uiOutput("selectWherePattern"),
+          # radioButtons("choiceWherePattern",label="Choose where to search for the pattern:" ,
+          #                          choices=c("From a ROI"="fromROI",
+          #                                    "From the entire genome (SLOW!)"="fromGenome"),
+          #                          selected="fromROI"
+          # ),
+          selectInput("selectROItoExtractPattern",label="ROI to extract pattern from:",NULL),
           #warning in case BSgenome DB not present
           uiOutput("showWarningBSgenome"),
           #motif text input
@@ -228,7 +201,7 @@ tabROI<-tabItem (tabName = "ROIblock",
             checkboxGroupInput("confirmviewROI", label=NULL,choices=NULL)
           ),
           
-          actionButton("updatechoiceROI", "Update choice")
+          actionButton("updatechoiceROI", "View")
         ),
         box(width=6,collapsible = TRUE,status = "primary",solidHeader = TRUE,
           title=boxHelp(ID="msg_viewRois_visualization",title="Visualization"),
@@ -253,7 +226,7 @@ tabROI<-tabItem (tabName = "ROIblock",
             sliderInput("quantileROIwidth",label="Select quantile of the width distribution:",min=0,max=1,value=.5,step=0.01),
             htmlOutput("viewROIstat"),
             HTML("<br>"),
-            HTML("<b>Where does this ROI come from?</b>"),
+            HTML("<b>Notes of the ROI:</b>"),
             wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 200px; max-width: 300px; background-color: #ffffff;",
               htmlOutput("viewROIsource")
             )
@@ -270,14 +243,22 @@ tabROI<-tabItem (tabName = "ROIblock",
 
           HTML("<b>Select ROI:</b>"),
           selectInput("listgetROI",NULL,choices=NULL),
-          uiOutput("showROIoptionsToViewRANGE"),
-          uiOutput("showROIoptionsToViewMETADATA"),
-          uiOutput("showROIoptionsToViewENRICHMENTS"),
-          #checkboxInput("putEnrichments", label="Put available enrichments",value = TRUE, width = NULL),
-          actionButton("showdataframeROI", "Preview ROI"),
 
-          HTML("<br><br><br><br>"),
-          uiOutput("showWindowAnnotation")
+          radioButtons("choosegetROItype",label=NULL,choices=c(
+                              "Features for each genomic range"="eachRange",
+                              "Gene list inside genomic window"="genesWindow",
+                              "Edit notes of the ROI"="editNotes"
+                            ),selected="eachRange"),   
+          uiOutput("showROIoptionsToGET")      
+
+          # uiOutput("showROIoptionsToViewRANGE"),
+          # uiOutput("showROIoptionsToViewMETADATA"),
+          # uiOutput("showROIoptionsToViewENRICHMENTS"),
+          # #checkboxInput("putEnrichments", label="Put available enrichments",value = TRUE, width = NULL),
+          # actionButton("showdataframeROI", "Preview ROI"),
+
+          # HTML("<br><br><br><br>"),
+          # uiOutput("showWindowAnnotation")
 
         ),
 
@@ -295,205 +276,8 @@ tabROI<-tabItem (tabName = "ROIblock",
 
 
 
-    #BAM association tab
-    tabPanel("Associate enrichments",
 
-      fluidRow(
-
-
-        box(width=7,collapsible = TRUE,status = "primary",solidHeader = TRUE,
-          title=boxHelp(ID="msg_associateEnrichments_associateRemove",title="Associate/remove enrichments"),
-
-          fluidRow(
-            column(width=6,
-              HTML("<b>Choose ROI(s):</b><br>"),
-              wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 500px; max-width: 300px; background-color: #ffffff;",
-                checkboxGroupInput("selectROItoBAMassociate",label=NULL,NULL)
-              )
-            
-            ),
-            column(width=6,
-              HTML("<h3>Associate enrichment(s) to ROI(s)</h3><br>"),
-              HTML("<b>Select enrichment(s) to associate to selected ROI(s):</b><br>"),
-              wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 180px; max-width: 300px; background-color: #ffffff;",
-                checkboxGroupInput("selectBAMtoassociate", NULL,choices=NULL)
-              ),
-              uiOutput("radioForNorm"),
-              uiOutput("menuForNorm"),
-              HTML("<b>Number of cores:</b>"),
-              numericInput(inputId = 'coresCoverage',label=NULL,min = 1, max = nc, step = 1,value=1),
-              HTML("<i>WARNING</i>: time consuming (some minutes)<br>"),
-              actionButton("confirmBAMassociate", "Associate!"),
-              HTML("<br><br>"),
-              HTML('<hr size=3>'),
-              HTML("<br>"),
-              HTML("<h3>Enrichments associated to ROI(s)</h3><br>"),
-              HTML("<b>Select enrichment(s) to remove from selected ROI(s):</b><br>"),
-              wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 180px; max-width: 300px; background-color: #ffffff;",
-                checkboxGroupInput("selectBAMtoDeassociate", NULL,choices=NULL)
-              ),
-              actionButton("confirmBAMDeassociate", "Remove")            
-            )
-          )
-        ),
-
-        box(width=5,collapsible = TRUE,status = "primary",solidHeader = TRUE,
-          title=boxHelp(ID="msg_renameEnrichments_renameOrderEnrichments",title="Rename/reorder enrichments"),
-          selectInput("selectROIforBAMrename",label="Select ROI for rename/reorder enrichments:",NULL),
-          HTML("<br>"),
-          HTML("<h3>Rename enrichments</h3><br>"),
-          #HTML("<br>"),
-          selectInput("selectedBAMtoRename",label="Select enrichment to rename:",NULL),
-          #HTML("<br><br>"),
-          textInput("newBAMname","Select new name:",placeholder="type new enrichment name here",value=""),
-          actionButton("renameBAM", "Rename"),
-          HTML("<br><br>"),
-          HTML('<hr size=3>'),
-          HTML("<br>"),
-          HTML("<h3>Reorder enrichments</h3><br>"),
-          wellPanel(id = "logPanelBAM",style = "overflow-y:scroll; max-height: 400px",
-            fluidPage(
-              uiOutput("dinamicBAM")
-            )
-          ),
-          #button to confirm to reorder
-          actionButton("reorderBAM","Reorder!")
-        )
-      )
-
-    ),
-
-
-
-
-
-
-    tabPanel("GO analyses",
-      fluidRow (
-        
-        column(width=3,
-
-          box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
-            title=boxHelp(ID="msg_goAnalysis_parameters",title="Parameters"),
-
-            tabBox(width=12,
-              tabPanel("Variables",
-                HTML("<br><b>Select the source</b></br>"),
-                radioButtons("chooseSourceGO",label=NULL,choices=c(
-                              "From ROI"="fromROI",
-                              "From gene list"="fromGeneList"
-                            )),
-                #here, the UI (checkboxGroup if from ROI, textInput if from custom list)
-                uiOutput("viewSelectGenesGO"),
-                #here, put choice of kind of ID of the genes (symbols, etrez, ensembl): only symbols if database (promoters) is not present
-                uiOutput("additionalparametersGO"),
-                uiOutput("chooseWindowROIGO"),
-                #here, we serve all possible genesets using GenesetsGMT global variable
-                HTML("<b>Select signature(s):</b>"),
-                wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 150px; max-width: 300px; background-color: #ffffff;",
-                  checkboxGroupInput(inputId="selectedGenesetsGO",label=NULL,choices=names(GenesetsGMT))
-                ),
-
-                #radiobutton to choose if ranking or clustering the results
-                uiOutput("chooseOrderingGO_widget"),
-                
-                # radioButtons("chooseOrderingGO","How to order results",choices=c(
-                #                             "Ranking best padj"="ranking",
-                #                             "Custering"="clustering"
-                #                       ),selected="ranking") ,
-                #if "clsutering" is selected, show radiobutton of the type of clustering ("kmean" or "hierarchical")
-                uiOutput("clustertypeGO_widget"),
-                uiOutput("clusternumbershowGO_widget"),
-                uiOutput("clusterHDistMethodGO_widget"),
-                uiOutput("clusterHClustMethodGO_widget"),
-                uiOutput("clusterKstartsGO_widget"),
-                uiOutput("clusterKiterationsGO_widget"),
-
-
-                HTML("<b>Min signature size:</b>"),
-                numericInput(inputId = 'minSizeGO',label=NULL,min = 1, step = 5,value=15),
-                HTML("<b>Max signature size:</b>"),
-                numericInput(inputId = 'maxSizeGO',label=NULL,min = 1, step = 5,value=500),              
-
-                actionButton("doTheGO","GO!")
-              ),
-
-              tabPanel("Filtering",
-                #here, sliderInputs of various thresholds for the analyses
-                sliderInput('scaleQuantileGO',label="Quantile threshold for padj colorscale",min = 0.1, max = 1, value = 0.9,step=0.002),
-                #geneRatio:
-                sliderInput('quantileGeneRatioGO',label="Gene ratio threshold:",min = 0, max = 1, value = 0,step=0.05),
-                #-log10Padj:
-                sliderInput('log10padjGO',label="-log10 padj threshold:",min = 1, max = 50, value = 2,step=1),
-                #top n statistically significant:
-                sliderInput('topNGO',label="Top significant hits:",min = 1, max = 100, value = 10,step=1),
-                #color scale
-                selectInput("colorScaleGO",label="Choose a color scale:",c("white/red"="white_red4",
-                                                              "white/blue"="white_blue",
-                                                              "white/green"= "white_green4"))
-              )
-
-              
-            )
-
-          )
-
-
-
-        ),
-        
-
-
-        column(width=9,
-          fluidRow(
-            #put plot (barplot/heatmap)
-            box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
-              title=boxHelp(ID="msg_goAnalysis_goPlot",title="GO plot"),
-
-              fluidRow(
-                column(width=9,#style='padding:0px;',
-                  fluidRow(
-                    column(width=3,
-                      plotOutput("plotMaterialLeft")
-                    ),
-                    column(width=9,
-                      plotOutput("plotOntology",click="GO_click",brush=brushOpts(id="GO_brush",delayType="debounce",delay=300,resetOnNew=TRUE)),#,height=750,width=600),
-                      plotOutput("textNameGO"),
-                      htmlOutput("saveheatmapGO")
-                    #width=600),
-                    )
-                  )
-                ),
-                column(width=3,#style='padding:0px;',
-                  plotOutput("colorScaleGO",height=100),
-                  uiOutput("showTermClicked"),
-                  uiOutput("showGenesClicked")
-                ) 
-              )
-
-            )
-            
-          ),
-
-          fluidRow(
-            #put table to download
-            box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
-              title=boxHelp(ID="msg_goAnalysis_goTable",title="GO table"),
-
-              wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; background-color: #ffffff;",
-                dataTableOutput("tableOntology")
-              ),
-              uiOutput("tableGOdownloadButton")
-            )
-          
-          )
-        )
-
-
-      )
-    ),
-
-
+    
 
 
 

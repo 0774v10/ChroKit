@@ -64,30 +64,30 @@ Tip<-function(body,plural=F){
 
 #choose coordinates
 msg_coordinateFiles_chooseCoordinates<-list(
-	title="From file",
+	title="Import a new ROI",
 	text=list(
-		tags$h3("File to import"),
+		tags$h3("Load a ROI from a file"),
 		"Choose the BED/GTF/GFF file to import",
 		tags$br(),
-		tags$br(),
-		tags$h4("Parameters:"),
-		"Choose the parameters to use to open a ROI from file",
-		tags$br(),
-		Field("Header","Tick if the file has a header"),
-		Field("Lines to skip","If you have extra-lines at the beginning of your file, you can skip them by
-			inserting their number here"),
-
 		tags$br(),
 		tags$h4("Open file:"),
 		"You can use two different ways to open a BED/GTF/GFF file",
 		tags$br(),
-		Field("Select a file...","Select the BED/GFF/GTF file by exploring the filesystem"),
-		Field("...or choose a file path","Type the complete path of the BED/GFF/GTF file"),
+		tags$br(),
+		Field("Choose file from filesystem","Select the BED/GFF/GTF file by exploring the filesystem"),
+		Field("Manually type the path of the file","Type the complete path of the BED/GFF/GTF file"),
 		tags$br(),
 
 		Comment("If the file is opened correctly, the content of the table can be explored interactively 
 						in 'File preview' section (see below)"),
-
+		tags$br(),
+		tags$h4("Parameters:"),
+		"Choose the parameters to use to open a ROI from file",
+		tags$br(),
+		tags$br(),
+		Field("Header","Tick if the file has a header"),
+		Field("Lines to skip","If you have extra-lines at the beginning of your file, you can skip them by
+			inserting their number here"),
 		tags$br(),
 		tags$br(),
 		Warning("1. This file must be reachable from the machine on which ChroKit is running.<br>
@@ -101,27 +101,18 @@ msg_coordinateFiles_chooseCoordinates<-list(
 				",plural=T),
 				
 		tags$br(),
+		tags$h4("File preview"),
+		"Here you can check the file you opened",
 		tags$br(),
 		tags$br(),
-		tags$h3("File preview"),
-		"Here you can check the file you opened"		
-	)
-)
-
-
-
-#Import genelist
-msg_genelists_importGenelist<-list(
-	title="From genelist",
-	text=list(
-		tags$h3("Genes to import"),
-		"You can import promoters, transcripts and TES from a custom list of genes (one gene per line) in 3 different ways",
 		tags$br(),
+		tags$h3("Load promoters, transcripts and TES coordinates of a list of genes"),
+		"Load the coordinates of promoters, transcripts, TES for each of the genes provided",
 		tags$br(),
-		Field("Open a text file...","Select a text file containing the list of genes by exploring the filesystem"),
-		Field("...or select a path...","Type the path of the text file containing the list of genes"),
-		Field("...or put IDs/symbols here","Insert here the list of gene symbols or IDs to extract, and the name of the new gene list you are going to import"),
-
+		tags$br(),		
+		Field("Paste IDs/symbols","Insert here the list of gene symbols or IDs to extract, and the name of the new gene list you are going to import"),
+		Field("Choose gene list from filesystem","Select a text file containing the list of genes by exploring the filesystem"),
+		Field("Manually type the path of the file","Type the path of the text file containing the list of genes"),		
 		tags$br(),
 		Comment("When a gene list is opened, the promoters, transcripts, TES of the genes associated to that gene lists are loaded in memory as new ROI. 
 				All annotated isoforms are loaded as well"),
@@ -132,18 +123,81 @@ msg_genelists_importGenelist<-list(
 				3. A genome assembly must be loaded to import a gene list (To load a genome assembly, go to the 'Assembly' section).",plural=T),
 
 		tags$br(),
-		tags$br(),
-		tags$h3("Parameters"),
+		tags$br(),	
+		tags$h4("Parameters:"),
 		tags$br(),
 		Field("What kind of identifiers are you importing?","Select which kind of identifiers are in the gene list you are importing: Symbols, ENTREZ IDs, ..."),
 		Field("Max length for transcripts","Select the maximum length of the transcript allowed in the gene list you are going to import.  
 				Genes with transcripts length above that threshold will not be loaded"),
 		tags$br(),
-		Warning("Association of enrichments to long transcripts may cause memory problems")
-
+		Warning("Association of enrichments to long transcripts may cause memory problems"),
+		tags$br(),
+		tags$br(),
+		tags$br(),
+		tags$h3("Generate ROI from sequence pattern"),
+		"You can import a new ROI with the coordinates of a specific sequence pattern from the genome",		
+		tags$br(),
+		Warning("1. A genome assembly must be loaded to search for patterns. To load a genome assembly, use 'Assembly' section.<br>
+				2. A BSgenome database must be also loaded: this database contains the information about the sequence 
+				in a specific genomic region in the genome assembly in use. If this database is not installed in the 
+				system, a new button will appear to enable the User to download it from bioConductor. 
+				Make sure your internet connection is working",plural=T),
+		tags$br(),
+		tags$br(),
+		Field("Select pattern (IUPAC nomenclature)","Select the pattern you want to extract. Use the IUPAC nomenclature:
+				<li><b>A,C,G,T,U</b>: known bases</li>
+				<li><b>R</b>: A or G</li>
+				<li><b>Y</b>: C or T</li>
+				<li><b>S</b>: G or C</li>
+				<li><b>W</b>: A or T</li>
+				<li><b>K</b>: G or T</li>
+				<li><b>M</b>: A or C</li>
+				<li><b>B</b>: C or G or T</li>
+				<li><b>D</b>: A or G or T</li>
+				<li><b>H</b>: A or C or T</li>
+				<li><b>V</b>: A or C or G</li>
+				<li><b>N</b>: any base</li>
+				<li><b>. or -</b>: gap</li>"),
+		Field("Name of the ROI","Choose the name of the ROI centred on the pattern")
 	)
 )
 
+
+
+
+
+#New ROI from pattern from entire genome
+# msg_coordinate_patternFromGenome<-list(
+# 	title="From sequence pattern (entire genome)",
+# 	text=list(
+# 		tags$h3("Import ROI from sequence pattern"),
+
+# 		"You can import a new ROI with the coordinates of a specific sequence pattern from the genome",
+# 		tags$br(),
+# 		Warning("1. A genome assembly must be loaded to search for patterns. To load a genome assembly, use 'Assembly' section.<br>
+# 				2. A BSgenome database must be also loaded: this database contains the information about the sequence 
+# 				in a specific genomic region in the genome assembly in use. If this database is not installed in the 
+# 				system, a new button will appear to enable the User to download it from bioConductor. 
+# 				Make sure your internet connection is working",plural=T),
+# 		tags$br(),
+# 		tags$br(),
+# 		Field("Select pattern (IUPAC nomenclature)","Select the pattern you want to extract. Use the IUPAC nomenclature:
+# 				<li><b>A,C,G,T,U</b>: known bases</li>
+# 				<li><b>R</b>: A or G</li>
+# 				<li><b>Y</b>: C or T</li>
+# 				<li><b>S</b>: G or C</li>
+# 				<li><b>W</b>: A or T</li>
+# 				<li><b>K</b>: G or T</li>
+# 				<li><b>M</b>: A or C</li>
+# 				<li><b>B</b>: C or G or T</li>
+# 				<li><b>D</b>: A or G or T</li>
+# 				<li><b>H</b>: A or C or T</li>
+# 				<li><b>V</b>: A or C or G</li>
+# 				<li><b>N</b>: any base</li>
+# 				<li><b>. or -</b>: gap</li>"),
+# 		Field("Name of the ROI","Choose the name of the ROI centred on the pattern")
+# 	)	
+# )
 
 #Delete ROIs
 msg_deleteRois_deleteRois<-list(
@@ -194,8 +248,8 @@ msg_enrichmentFiles_importEnrichment<-list(
 		"This section is used to associate enrichment files to a ChroKit session.",
 		tags$br(),
 		tags$br(),
-		Field("Choose a file...","Select the enrichment file (BAM or WIG) by exploring the filesystem"),
-		Field("...or select the path","Type here the path to the enrichment file (BAM or WIG)"),
+		Field("Choose one or more files from filesystem","Select the enrichment file(s) (BAM or WIG) by exploring the filesystem"),
+		Field("Manually type the path of a file","Type here the path to the enrichment file (BAM or WIG)"),
 		tags$br(),
 		Comment("Formats supported: BAM and WIG. When an enrichment file is selected and imported, the program keeps in memory the link (path)
 				 to that file"),
@@ -371,20 +425,20 @@ msg_newRois_ROIcombination<-list(
 		tags$br(),
 		tags$br(),
 		tags$br(),
-		Field("...that overlaps with contrast ROI","Here you can define the rules to build the contrast ROI 
+		Field("...that overlaps with","Here you can define the rules to build the contrast ROI 
 				that will be used for the overlap analysis with the reference ROI. The aggregated contrast ROI 
 				is built from the ROIs selected which are then aggregated following the rule defined in 
 				'<b>Criteria for building the aggregated contrast ROI</b>'"),
-		Field("Select ROI(s)","Select one or more contrast ROIs to be overlapped with the reference ROI"),
-		Field("Criteria for building the aggregated contrast ROI","If multiple contrast ROIs are selected here, 
+		Field("Select ROI(s)","Select one or more ROIs to be overlapped with the reference ROI"),
+		Field("Criteria for building the aggregated contrast ROI","If multiple ROIs are selected here, 
 				they will be aggregated according to different criteria:
-				<li>Intersection of the contrast ROIs: the aggregated contrast ROI will be constituted by 
-					the genomic ranges common to all the ROIs selected. For example, if 3 contrast ROIs 
+				<li>Intersection of the selected ROIs: the aggregated contrast ROI will be constituted by 
+					the genomic ranges common to all the ROIs selected. For example, if 3 ROIs 
 					are selected (i.e. A, B and C), the aggregated contrast ROI will be: 
 					A&cap;B&cap;C</li>
 
-				<li>Union of the contrast ROIs: The aggregated contrast ROI will be the union of all the genomic 
-					ranges contained in the selected ROIs. For example, if 3 contrast ROIs 
+				<li>Union of the selected ROIs: The aggregated contrast ROI will be the union of all the genomic 
+					ranges contained in the selected ROIs. For example, if 3 ROIs 
 					are selected (i.e. A, B and C), the aggregated contrast ROI will be:
 					A&cup;B&cup;C</li>"),
 		tags$br(),
@@ -392,18 +446,18 @@ msg_newRois_ROIcombination<-list(
 		tags$br(),
 		tags$br(),
 		tags$br(),
-		Field("...that doesn't overlap with contrast ROI","Here you can define the rules to build the contrast ROI 
+		Field("...that doesn't overlap with","Here you can define the rules to build the contrast ROI 
 				that will be used to identify genomic ranges non-overlapping with the reference ROI. 
 				For more information refer to:'<b>Criteria for building the aggregated contrast ROI</b>'"),
 		Field("Select ROI(s)","Select one or more contrast ROIs"),
-		Field("Criteria for building the aggregated contrast ROI","If multiple contrast ROIs are selected here, 
+		Field("Criteria for building the aggregated contrast ROI","If multiple ROIs are selected here, 
 				they will be aggregated according to different criteria:
-				<li>Intersection of the contrast ROIs:  The aggregated contrast ROI will be constituted by the 
-					genomic ranges common to all the ROIs selected. For example, if 3 contrast ROIs 
+				<li>Intersection of the selected ROIs:  The aggregated contrast ROI will be constituted by the 
+					genomic ranges common to all the ROIs selected. For example, if 3 ROIs 
 					are selected (i.e. A, B and C), the aggregated contrast ROI will be: 
 					A&cap;B&cap;C</li>
-				<li>Union of the contrast ROIs :  The aggregated contrast ROI will be the union 
-				of all the genomic ranges contained in the selected ROIs. For example, if 3 contrast ROIs 
+				<li>Union of the selected ROIs :  The aggregated contrast ROI will be the union 
+				of all the genomic ranges contained in the selected ROIs. For example, if 3 ROIs 
 					are selected (i.e. A, B and C), the aggregated contrast ROI will be:
 					A&cup;B&cup;C</li>"),
 		tags$br(),
@@ -428,13 +482,17 @@ msg_modifyRois_resize<-list(
 		then the center of the genomic ranges will correspond to the TSS (transcription start site)",
 		tags$br(),
 		tags$br(),
-		Field("Select ROI to resize","Select the ROI you want to resize"),
-		Field("Select Upstream/Downstream intervals","Set the number of base 
-						pairs upstream and downstream the center of the genomic regions"),
+		Field("Resize using fixed value","Resize the all the genomic ranges of the selected ROI using a defined window in bp<br><br>
+				<i>From midpoint/TSS</i>: Set the number of base pairs upstream and downstream the midpoint or the TSS to resize<br>
+				<i>From starts</i>: Set the number of base pairs to resize each range of the ROI, keeping the start coordinates fixed. Ranges with negative strand
+				   will be resized in opposite way (the end instead of start)<br>
+				<i>From ends</i>: Set the number of base pairs to resize each range of the ROI, keeping the end coordinates fixed. Ranges with negative strand
+				   will be resized in opposite way (the start instead of end)"),
+		
+		Field("Resize using percentage of range width","Increment/decrement the size of the genomic ranges of the selected ROI of a percentage of the ranges width"),
 		Field("Name of the ROI","Choose the name of the resized ROI"),
 		tags$br(),
-		Warning("The new ROI will keep the enrichments associated to the old ROI only if 
-				all genomic ranges of the old ROI decrease their width")
+		Warning("The new ROI won't keep the enrichments associated to the old ROI")
 	)
 )
 
@@ -542,20 +600,20 @@ msg_modifyRois_enrichment<-list(
 msg_modifyRois_pattern<-list(
 	title="Extract sequence patterns",
 	text=list(
-		"You can extract user-provided sequence patterns, either from a ROI or from the entire genome.
+		"You can extract user-provided sequence patterns from a ROI.
 			The output is a new ROI composed of genomic ranges that contain the user-defined pattern. 
 			The new ROI obtained after the pattern search will be strand-specific, based on the pattern found. 
 			The genomic ranges will be centred on the pattern.",
 		tags$br(),
 		tags$br(),
-		Field("Choose where to search for the pattern","This menu allows to choose if the pattern is searched 
-					in a existing ROI or from the entire genome. The genomic ranges of the new ROI will be all 
-					the occurrences of the pattern:
-					<li>From a ROI: select this to extract a pattern from an available ROI. This will let you 
-						choose the ROI from which extract the desired pattern</li>
-					<li>From the entire genome (SLOW): select this to extract a pattern from the entire genome 
-						(using the assembly in use)</li>"),
-		tags$br(),
+		# Field("Choose where to search for the pattern","This menu allows to choose if the pattern is searched 
+		# 			in a existing ROI or from the entire genome. The genomic ranges of the new ROI will be all 
+		# 			the occurrences of the pattern:
+		# 			<li>From a ROI: select this to extract a pattern from an available ROI. This will let you 
+		# 				choose the ROI from which extract the desired pattern</li>
+		# 			<li>From the entire genome (SLOW): select this to extract a pattern from the entire genome 
+		# 				(using the assembly in use)</li>"),
+
 		Warning("1. A genome assembly must be loaded to search for patterns. To load a genome assembly, use 'Assembly' section.<br>
 				2. A BSgenome database must be also loaded: this database contains the information about the sequence 
 				in a specific genomic region in the genome assembly in use. If this database is not installed in the 
@@ -628,6 +686,11 @@ msg_getRois_roiSelection<-list(
 		Once a ROI is selected, the following information can be retrieved",
 		tags$br(),
 		tags$br(),
+		tags$h4("Features for each genomic range:"),
+		tags$br(),
+		"Displays the genomic coordinates and/or nearest gene IDs and/or associated enrichments for each genomic range of the selected ROI",
+		tags$br(),
+		tags$br(),
 		Field("View Ranges","Genomic coordinates of the ROI and the strand"),
 		Field("Select annotations to show","Here you can include IDs and/or symbols 
 											of the annotated genes"),
@@ -640,11 +703,21 @@ msg_getRois_roiSelection<-list(
 		Field("Enrichments","These are the signal enrichments associated to the ROI. It shows the sum 
 				of the pileup of the reads for the selected enrichment within each genomic range of the ROI"),
 		tags$br(),
+		tags$h4("Gene list inside genomic window:"),
+		tags$br(),
+		"Displays the list of gene IDs and/or symbols inside a genomic window from the midpoint of each genomic range of the selected ROI",
+		tags$br(),
+		tags$br(),
 		Field("Get annotated genes within a genomic window","It retrieves the list of genes (IDs and/or symbols) 
 					found at a user-defined distance from the genomic ranges of the ROI. User defined 
 					distance is set in '<b>Select the genomic window (bp)</b>'"),
 		Field("Select the genomic window (bp)","Select the size of the genomic window flanking the genomic ranges 
-					of a ROI. The width is measured from  the center of the genomic ranges")
+					of a ROI. The width is measured from  the center of the genomic ranges"),		
+		tags$br(),
+		tags$h4("Edit notes of the ROI:"),
+		tags$br(),
+		"Displays the notes of the selected ROI. These notes can be edited and saved or downloaded as text file",
+		tags$br()
 
 	)
 )

@@ -12,75 +12,18 @@ tabBED <- tabItem(tabName = "BEDblock",
         box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
                 title=boxHelp(ID="msg_coordinateFiles_chooseCoordinates",title="From file"),
 
-          column(width=4,
-            HTML("<h3>File to import</h3><br>"),
-            HTML("<h4>Parameters:</h4>"),
-            checkboxInput("readheader","Header",value=TRUE),
-            numericInput(inputId = 'skiplines',label="Lines to skip:",min = 0, step = 1,value=0),
-            HTML("<br>"),
-            HTML('<hr size=3>'),
-            HTML("<h4>Open file:</h4>"),
-            HTML("<b>Select a file...:</b><br>"),
-            shinyFilesButton('file', 'Choose file', 'Please select a file', FALSE),
-            HTML("<br><br>"),
-            HTML("<b>... or choose a file path:</b>"),
-            textInput("BEDfrompath",NULL,value="",placeholder = "/path/to/BEDorGTF"),
-            #checkboxInput("readheaderpath","Header?",value=TRUE),
-            #numericInput(inputId = 'skiplines2',label="Lines to skip:",min = 0, step = 1,value=0),
-            actionButton("confirmImportBEDfrompath", "Open file")   
-          ),
-          column(width=8,
-            HTML("<h3>File preview</h3>"),
-            HTML("<br>"),
-            htmlOutput("showcurrentfile"),
-            dataTableOutput("fileHead"),
-            HTML("<br><br>"),
-            #open button and cancel button
-            fluidRow(
-              column(4,uiOutput('openfilebutton')),
-              column(2,uiOutput('cancelfilebutton'))
-            )          
-          )
-        ),
-    
-        box(width=12,collapsible = TRUE,status = "primary",solidHeader = TRUE,
-                      title=boxHelp(ID="msg_genelists_importGenelist",title="From genelist"),
-          column(width=6,  
-            HTML("<h3>Genes to import</h3>"),
-            HTML("<br>"),  
-            HTML("<b>Open a text file...:</b><br>"),
-            shinyFilesButton('fileGENELISTS', 'Choose gene list', 'Please select a txt file', FALSE),
-            HTML("<br><br>"),
-            HTML("<b>...or select a path...:</b>"),
-            textInput("GENELISTSfrompath",NULL,value=NULL,placeholder = "/path/to/geneList.txt"),
-            #files must be clean and not have the header. Gene list name is automatically given by the file name
-            actionButton("createGENELISTSfrompath", "Open gene list"),
-            HTML("<br><br>"),
-            HTML("<b>...or put IDs/symbols here:</b><br>"),
-            #wellPanel(id = "logPanel",style = "overflow-y:scroll; overflow-x:scroll; max-height: 200px; max-width: 300px; background-color: #ffffff;",
-            textAreaInput("pastedGENELISTS",NULL,value="",height=150),
-            textInput("nameGENELISTS",NULL,placeholder="genelist name",value=""),
-            actionButton("createGENELISTSfrompaste", "Import")  
-          ),
+          radioButtons("importROImainchoice",label="Select how to get a new ROI",choices=c(
+                                  "Load a file of genomic coordinates (bed/gtf/gff)"="fromfile",
+                                  "Get promoters, transcripts, TES coordinates of a list of genes"="fromgenelist",
+                                  "Generate ROI from a sequence pattern in the genome"="frompattern"
+                            ),selected="fromfile"),            
 
-          column(width=6,
-            HTML("<h3>Parameters</h3>"),
-            HTML("<br>"),
-            HTML("<br>"),
-            radioButtons("symbolORid","What kind of identifiers are you importing?",choices=c(
-                                                      "ENTREZ IDs"="entrez",
-                                                      "ENSEMBL IDs"="ensembl",
-                                                      "Symbols"="symbol",
-                                                      "RefSeq IDs"="refseq"
-                                                            ),selected="symbol"),
-            HTML("<br>"),
-            HTML("<b>Max length for transcripts:</b>"),
-            numericInput(inputId = 'thresholdTranscripts',label=NULL,min = 0, step = 100000,value=200000)       
-          )
+          HTML("<br><br>"),
+          uiOutput("importROIwindowToShow")
 
-        ) 
-      
-      
+
+        )
+  
       ),
 
       column(width=4,

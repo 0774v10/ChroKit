@@ -35,6 +35,7 @@ observeEvent(input$saveWork,{
 		logvariables_msg=logvariables$msg
 
 		Enrichlistvariables_rawcoverage=Enrichlist$rawcoverage
+		Enrichlist_decryptkey=Enrichlist$decryptkey
 		Enrichlistvariables_normfactlist=Enrichlist$normfactlist
 
 
@@ -57,6 +58,7 @@ observeEvent(input$saveWork,{
 			BAMvariables_listBAM,
 			logvariables_msg,
 			Enrichlistvariables_rawcoverage,
+			Enrichlist_decryptkey,
 			Enrichlistvariables_normfactlist
 		)
 
@@ -81,6 +83,7 @@ observeEvent(input$saveWork,{
 			"BAMvariables_listBAM",
 			"logvariables_msg",
 			"Enrichlistvariables_rawcoverage",
+			"Enrichlistvariables_decryptkey",
 			"Enrichlistvariables_normfactlist")
       	#logvariables$msg[[length(logvariables$msg)+1]]= paste('<font color="blue">Wainting for the session to be saved...<br></font>',sep="")
       	
@@ -190,6 +193,7 @@ observeEvent(input$loadenv, {
 			#load the clustvariables
 
 			Enrichlist$rawcoverage=totalENV$Enrichlistvariables_rawcoverage
+			Enrichlist$decryptkey=totalENV$Enrichlistvariables_decryptkey
 			Enrichlist$normfactlist=totalENV$Enrichlistvariables_normfactlist
 
 

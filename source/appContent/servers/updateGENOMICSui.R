@@ -1231,10 +1231,10 @@ observeEvent(input$heatmap_brush,{
 
       n=length(portionlist_profile)
       #ROIvariables$colorsfordensity <- distinctColorPalette(n)
-      qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
-      col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
-      color_distinct <-sample(col_vector, n)
-
+      # qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
+      # col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+      # color_distinct <-sample(col_vector, n)
+      color_distinct=colors_list[1:n]
 
       toplot$gadgetanalogic$Log2BoxAnalogHeat=input$Log2BoxAnalogHeat
       toplot$gadgetanalogic$portionlist_profile=portionlist_profile
@@ -1284,9 +1284,9 @@ observeEvent(input$heatmap_brush,{
         axis(1,at=c(1,length(portionlist_profile2[[1]])/2 +0.5,length(portionlist_profile2[[1]])),labels=c("start","center","end"))
 
         for(i in 1:length(portionlist_profile2)){
-          lines(portionlist_profile2[[i]],lwd=2,col=color_distinct[i])
+          lines(portionlist_profile2[[i]],lwd=3,col=color_distinct[i])
         }
-        legend("topright",legend=names(portionlist_profile),col=color_distinct,lty=rep(1,length(color_distinct)),cex=0.7,bg="transparent")   
+        legend("topright",legend=names(portionlist_profile),col=color_distinct,lty=rep(1,length(color_distinct)),cex=0.7,bg="transparent",lwd=3)   
       })
 
 
@@ -1592,10 +1592,11 @@ observeEvent(input$rowdendrogram_click_Analog,{
 
         n=length(portionlist_profile)
         #ROIvariables$colorsfordensity <- distinctColorPalette(n)
-        qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
-        col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
-        color_distinct <-sample(col_vector, n)
+        # qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
+        # col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+        # color_distinct <-sample(col_vector, n)
 
+        color_distinct=colors_list[1:n]
 
         toplot$gadgetanalogic$Log2BoxAnalogHeat=input$Log2BoxAnalogHeat
         toplot$gadgetanalogic$portionlist_profile=portionlist_profile
@@ -1641,9 +1642,9 @@ observeEvent(input$rowdendrogram_click_Analog,{
           axis(1,at=c(1,length(portionlist_profile2[[1]])/2 +0.5,length(portionlist_profile2[[1]])),labels=c("start","center","end"))
 
           for(i in 1:length(portionlist_profile2)){
-            lines(portionlist_profile2[[i]],lwd=2,col=color_distinct[i])
+            lines(portionlist_profile2[[i]],lwd=3,col=color_distinct[i])
           }
-          legend("topright",legend=names(portionlist_profile),col=color_distinct,lty=rep(1,length(color_distinct)),cex=0.7,bg="transparent")   
+          legend("topright",legend=names(portionlist_profile),col=color_distinct,lty=rep(1,length(color_distinct)),cex=0.7,bg="transparent",lwd=3)   
         })
 
 
@@ -2064,6 +2065,7 @@ observeEvent(toListenParcor(),{
       smpl=sort(sample(nrow(mat),2000,replace=FALSE))
       mat=mat[smpl,]
     }
+    colnames(mat)=names(portionlist_boxes)
     #select idx of the matrix
     name_x=names(portionlist_boxes)[toplot$profileAndBoxes$px]
     name_y=names(portionlist_boxes)[length(portionlist_boxes)-toplot$profileAndBoxes$py+1]

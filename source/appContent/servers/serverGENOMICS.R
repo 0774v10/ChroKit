@@ -110,19 +110,19 @@ observeEvent(input$plotSingleEval,{
                               max(density(log2(width(cuttedga)))$x,density(log2(width(cuttedprom)))$x,density(log2(width(cuttedintra)))$x,density(log2(width(cuttedinter)))$x)  )
                       ylim=c(0, max(max(density(log2(width(cuttedprom)))$y),max(density(log2(width(cuttedintra)))$y),max(density(log2(width(cuttedinter)))$y) ) )
                       plot(density(log2(width(cuttedga)))$x,density(log2(width(cuttedga)))$y,pch=".",cex=1,xlab="log2 length",cex.lab=1,cex.axis=1,ylab="Frequency",ylim=ylim,xlim=xlim,
-                        main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=2,type="l",col=Colors[1])
-                      lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=2)
-                      lines(density(log2(width(cuttedintra)))$x,density(log2(width(cuttedintra)))$y,cex=1,col=Colors[3],ylim=ylim,xlim=xlim,lty=1,lwd=2)
-                      lines(density(log2(width(cuttedinter)))$x,density(log2(width(cuttedinter)))$y,cex=1,col=Colors[4],ylim=ylim,xlim=xlim,lty=1,lwd=2)
+                        main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=3,type="l",col=Colors[1])
+                      lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=3)
+                      lines(density(log2(width(cuttedintra)))$x,density(log2(width(cuttedintra)))$y,cex=1,col=Colors[3],ylim=ylim,xlim=xlim,lty=1,lwd=3)
+                      lines(density(log2(width(cuttedinter)))$x,density(log2(width(cuttedinter)))$y,cex=1,col=Colors[4],ylim=ylim,xlim=xlim,lty=1,lwd=3)
                 
                     }else{
                       xlim=c(min(density(log2(width(cuttedga)))$x ,density(log2(width(cuttedprom)))$x,density(log2(width(cuttedintra)))$x), 
                               max(density(log2(width(cuttedga)))$x,density(log2(width(cuttedprom)))$x,density(log2(width(cuttedintra)))$x  ))
                       ylim=c(0, max(max(density(log2(width(cuttedprom)))$y),max(density(log2(width(cuttedintra)))$y) ) )
                       plot(density(log2(width(cuttedga)))$x,density(log2(width(cuttedga)))$y,pch=".",cex=1,xlab="log2 length",cex.lab=1,cex.axis=1,ylab="Frequency",ylim=ylim,xlim=xlim,
-                        main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=2,type="l",col=Colors[1])
-                      lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=2)
-                      lines(density(log2(width(cuttedintra)))$x,density(log2(width(cuttedintra)))$y,cex=1,col=Colors[3],ylim=ylim,xlim=xlim,lty=1,lwd=2)
+                        main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=3,type="l",col=Colors[1])
+                      lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=3)
+                      lines(density(log2(width(cuttedintra)))$x,density(log2(width(cuttedintra)))$y,cex=1,col=Colors[3],ylim=ylim,xlim=xlim,lty=1,lwd=3)
                 
                     }
                     
@@ -132,8 +132,8 @@ observeEvent(input$plotSingleEval,{
                               max(density(log2(width(cuttedga)))$x,density(log2(width(cuttedprom)))$x  ))
                     ylim=c(0, max(max(density(log2(width(cuttedprom)))$y) ) )
                     plot(density(log2(width(cuttedga)))$x,density(log2(width(cuttedga)))$y,pch=".",cex=1,xlab="log2 length",cex.lab=1,cex.axis=1,ylab="Frequency",ylim=ylim,xlim=xlim,
-                      main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=2,type="l",col=Colors[1])
-                    lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=2)
+                      main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=3,type="l",col=Colors[1])
+                    lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=3)
                   }
                   legend("topright" , c("All intervals","Promoter","Genebody","Intergenic") , col=Colors , lty=rep(1,4),lwd=3,cex=1)
                 })
@@ -153,27 +153,38 @@ observeEvent(input$plotSingleEval,{
 
             #extract enrichment from correct position of the ROI selected
             rawvals=Enrichlist$rawcoverage[[pos]]
+            keyvals=Enrichlist$decryptkey[[pos]]
             normvals=Enrichlist$normfactlist[[pos]]
-      		getbam=names(rawvals)
+      		  getbam=names(rawvals)
 
             toplot$viewDistributionPieSingleEval$getbam=getbam
             toplot$viewDistributionPieSingleEval$chooseNormalizationSingleEval=input$chooseNormalizationSingleEval
         		if (!is.null(getbam)& length(getbam)>0){
         		  pos2=match(input$BAMchooseSingleEval,getbam)
       			  bam_orig=rawvals[[pos2]]
-              	  norm_orig=normvals[[pos2]]
-                  #bam=unlist(lapply(bam,sum))
+              keyvals_orig=keyvals[[pos2]]
+              norm_orig=normvals[[pos2]]
+              
+              #decrypt hex signals
+              #bam_orig=decryptcov(hexarray=list(bam_orig,keyvals_orig),chunk=length(bam_orig))
+
       			  #calculate enrichments for boxplots
       			  bam_promo_orig=bam_orig[ov_range>0]
+              key_promo_orig=keyvals_orig[ov_range>0]
       			  bam_ws_orig=bam_orig[ov_range==0]
+              key_ws_orig=keyvals_orig[ov_range==0]
       			  bam_intra_orig=bam_ws_orig[ov_transcripts>0]
+              key_intra_orig=key_ws_orig[ov_transcripts>0]
       			  bam_inter_orig=bam_ws_orig[ov_transcripts==0]
+              key_inter_orig=key_ws_orig[ov_transcripts==0]
  
+              #not very efficient, because the matrix could be calculated once, but fast enough
+              bam=as.integer(makeMatrixFrombaseCoverage(GRbaseCoverageOutput=bam_orig,Nbins=1,Snorm=FALSE,key=keyvals_orig,norm_factor=norm_orig))
+              bam_promo=bam[ov_range>0]
+              bam_ws=bam[ov_range==0]
+              bam_intra=bam_ws[ov_transcripts>0]
+              bam_inter=bam_ws[ov_transcripts==0]
 
-              bam=unlist(lapply(bam_orig,sum))*norm_orig
-              bam_promo=unlist(lapply(bam_promo_orig,sum))*norm_orig
-              bam_intra=unlist(lapply(bam_intra_orig,sum))*norm_orig
-              bam_inter=unlist(lapply(bam_inter_orig,sum))*norm_orig
               toplot$viewDistributionPieSingleEval$bam=bam
               toplot$viewDistributionPieSingleEval$bam_promo=bam_promo
               toplot$viewDistributionPieSingleEval$bam_intra=bam_intra
@@ -185,61 +196,63 @@ observeEvent(input$plotSingleEval,{
                 if (input$chooseNormalizationSingleEval=="totread"){
                   suppressWarnings(boxplot(bam,bam_promo,bam_intra,bam_inter,notch=TRUE,outline=FALSE,varwidth=TRUE,col=Colors,xaxt="n",ylab="Normalized reads (rpm)"))
                 }else{
-                  bam=round( bam/length(range),3)
-                  bam_promo=round( bam_promo/length(range_promo),3)
-                  bam_intra=round( bam_intra/length(range_intra),3)
-                  bam_inter=round( bam_inter/length(range_inter),3)
+                  bam=round( bam/width(range),3)
+                  bam_promo=round( bam_promo/width(range_promo),3)
+                  bam_intra=round( bam_intra/width(range_intra),3)
+                  bam_inter=round( bam_inter/width(range_inter),3)
                   suppressWarnings(boxplot(bam,bam_promo,bam_intra,bam_inter,notch=TRUE,outline=FALSE,varwidth=TRUE,col=Colors,xaxt="n",ylab="Read density (rpm/bp)"))
                 }
                 axis(1,at=1:4,labels=c("All intervals","Promoter","Genebody","Intergenic"),las=2)
 
               })
 
-              # bam_orig
-              # bam_promo_orig
-              # bam_intra_orig
-              # bam_inter_orig
               listtoprofile=list(bam_orig,bam_promo_orig,bam_intra_orig,bam_inter_orig)
-              
+              keystoprofile=list(keyvals_orig,key_promo_orig,key_intra_orig,key_inter_orig)
 
               for(i in 1:length(listtoprofile)){
                 set.seed(123)
                 smp=sample(1:length(listtoprofile[[i]]),floor(length(listtoprofile[[i]])/10),replace=FALSE)
                 listtoprofile[[i]]=listtoprofile[[i]][smp]
+                keystoprofile[[i]]=keystoprofile[[i]][smp]
               }
               #find matrix in bins for promo,intra,inter
               matrixes=list()
-              if(input$chooseNormalizationSingleEval=="totread"){
-                normmethod=FALSE
-                ylab="Normalized reads (rpm)"
-              }else{
-                normmethod=TRUE
-                ylab="Read density (rpm/bp)"
-              }
-              toplot$viewDistributionPieSingleEval$ylabprofile=ylab
+
+              
+
               for(i in 1:length(listtoprofile)){
                 if(length(listtoprofile[[i]])>0){
-                  matrixes[[i]]=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=listtoprofile[[i]],Nbins=50,Snorm=normmethod,norm_factor=norm_orig)
+                  matrixes[[i]]=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=listtoprofile[[i]],Nbins=50,Snorm=FALSE,key=keystoprofile[[i]],norm_factor=norm_orig)
                 }else{
                   matrixes[[i]]=matrix(rep(0,50),nrow=1)
                 }
-                
               }
 
-              #compact the matrix using mean
-              profile_to_plot=lapply(matrixes,function(i) {apply(i,2,mean)})
-              names(profile_to_plot)=c("all","promoters","genebody","intergenic")
-              toplot$viewDistributionPieSingleEval$profile_to_plot=profile_to_plot
+
+              #inefficient. It re-calculates eveery time. remove reactive values from within
               output$TSSprofileSingleEval<-renderPlot({
                 Colors=strsplit(input$chooseColorPaletteSingleEval,split="_")[[1]]
-
+                if(input$chooseNormalizationSingleEval=="totread"){
+                  ylab="Normalized reads (rpm)"
+                }else{
+                  ylab="Read density (rpm/bp)"
+                  #divide for length of ranges
+                  for (i in 1:length(matrixes)){
+                    matrixes[[i]]=apply(matrixes[[i]],2,function(k){k/sapply(listtoprofile[[i]],length)})
+                  }
+                }
+                #compact the matrix using mean
+                profile_to_plot=lapply(matrixes,function(i) {apply(i,2,mean)})
+                names(profile_to_plot)=c("all","promoters","genebody","intergenic")
+                toplot$viewDistributionPieSingleEval$profile_to_plot=profile_to_plot
+                toplot$viewDistributionPieSingleEval$ylabprofile=ylab
                 mins=Reduce(min,profile_to_plot)
                 maxs=Reduce(max,profile_to_plot)
 
                 plot(0,type='n',xaxt="n",ylim=c(mins,maxs),xlim=c(0,50),ylab=ylab,xlab="Genomic Window",
                         main="Shape profile",cex.main=1.2,cex=1,xaxt="n",cex.lab=1.2,cex.axis=1)
                 for(i in 1:length(profile_to_plot)){
-                  lines(profile_to_plot[[i]],pch=".",lwd=2,col=Colors[i])
+                  lines(profile_to_plot[[i]],pch=".",lwd=3,col=Colors[i])
                 }
 
                 axis(1,at=seq(1,length(profile_to_plot[[1]]),length(profile_to_plot[[1]])/2-1),
@@ -408,10 +421,10 @@ output$savewidthDistributionSingleEvalbutton<- downloadHandler(
                       max(density(log2(width(cuttedga)))$x,density(log2(width(cuttedprom)))$x,density(log2(width(cuttedintra)))$x,density(log2(width(cuttedinter)))$x)  )
               ylim=c(0, max(max(density(log2(width(cuttedprom)))$y),max(density(log2(width(cuttedintra)))$y),max(density(log2(width(cuttedinter)))$y) ) )
               plot(density(log2(width(cuttedga)))$x,density(log2(width(cuttedga)))$y,pch=".",cex=1,xlab="log2 length",cex.lab=1,cex.axis=1,ylab="Frequency",ylim=ylim,xlim=xlim,
-                main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=2,type="l",col=toplot$viewDistributionPieSingleEval$Colors[1])
-              lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=2)
-              lines(density(log2(width(cuttedintra)))$x,density(log2(width(cuttedintra)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[3],ylim=ylim,xlim=xlim,lty=1,lwd=2)
-              lines(density(log2(width(cuttedinter)))$x,density(log2(width(cuttedinter)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[4],ylim=ylim,xlim=xlim,lty=1,lwd=2)
+                main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=3,type="l",col=toplot$viewDistributionPieSingleEval$Colors[1])
+              lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=3)
+              lines(density(log2(width(cuttedintra)))$x,density(log2(width(cuttedintra)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[3],ylim=ylim,xlim=xlim,lty=1,lwd=3)
+              lines(density(log2(width(cuttedinter)))$x,density(log2(width(cuttedinter)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[4],ylim=ylim,xlim=xlim,lty=1,lwd=3)
               legend("topright" , c("All ranges","Promoter","Genebody","Intergenic") , col=toplot$viewDistributionPieSingleEval$Colors , lty=rep(1,4),lwd=3,cex=1)
               dev.off()
             }else{
@@ -419,9 +432,9 @@ output$savewidthDistributionSingleEvalbutton<- downloadHandler(
                       max(density(log2(width(cuttedga)))$x,density(log2(width(cuttedprom)))$x,density(log2(width(cuttedintra)))$x  ))
               ylim=c(0, max(max(density(log2(width(cuttedprom)))$y),max(density(log2(width(cuttedintra)))$y) ) )
               plot(density(log2(width(cuttedga)))$x,density(log2(width(cuttedga)))$y,pch=".",cex=1,xlab="log2 length",cex.lab=1,cex.axis=1,ylab="Frequency",ylim=ylim,xlim=xlim,
-                main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=2,type="l",col=toplot$viewDistributionPieSingleEval$Colors[1])
-              lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=2)
-              lines(density(log2(width(cuttedintra)))$x,density(log2(width(cuttedintra)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[3],ylim=ylim,xlim=xlim,lty=1,lwd=2)
+                main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=3,type="l",col=toplot$viewDistributionPieSingleEval$Colors[1])
+              lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=3)
+              lines(density(log2(width(cuttedintra)))$x,density(log2(width(cuttedintra)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[3],ylim=ylim,xlim=xlim,lty=1,lwd=3)
               legend("topright" , c("All ranges","Promoter","Genebody","Intergenic") , col=toplot$viewDistributionPieSingleEval$Colors , lty=rep(1,4),lwd=3,cex=1)
               dev.off()
             }
@@ -432,8 +445,8 @@ output$savewidthDistributionSingleEvalbutton<- downloadHandler(
                       max(density(log2(width(cuttedga)))$x,density(log2(width(cuttedprom)))$x  ))
             ylim=c(0, max(max(density(log2(width(cuttedprom)))$y) ) )
             plot(density(log2(width(cuttedga)))$x,density(log2(width(cuttedga)))$y,pch=".",cex=1,xlab="log2 length",cex.lab=1,cex.axis=1,ylab="Frequency",ylim=ylim,xlim=xlim,
-              main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=2,type="l",col=toplot$viewDistributionPieSingleEval$Colors[1])
-            lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=2)
+              main=paste("Interval length (0 - ",quant*100,"%)",sep=''),cex.main=1.2,lwd=3,type="l",col=toplot$viewDistributionPieSingleEval$Colors[1])
+            lines(density(log2(width(cuttedprom)))$x,density(log2(width(cuttedprom)))$y,cex=1,col=toplot$viewDistributionPieSingleEval$Colors[2],ylim=ylim,xlim=xlim,lty=1,lwd=3)
             legend("topright" , c("All ranges","Promoter","Genebody","Intergenic") , col=toplot$viewDistributionPieSingleEval$Colors , lty=rep(1,4),lwd=3,cex=1)
             dev.off()
           }      
@@ -457,10 +470,10 @@ output$saveenrichmentBoxSingleEvalbutton<- downloadHandler(
       if (input$chooseNormalizationSingleEval=="totread"){
         suppressWarnings(boxplot(toplot$viewDistributionPieSingleEval$bam,toplot$viewDistributionPieSingleEval$bam_promo,toplot$viewDistributionPieSingleEval$bam_intra,toplot$viewDistributionPieSingleEval$bam_inter,notch=TRUE,outline=FALSE,varwidth=TRUE,col=toplot$viewDistributionPieSingleEval$Colors,xaxt="n",ylab="Normalized reads (rpm)"))
       }else{
-        bam=round( toplot$viewDistributionPieSingleEval$bam/length(toplot$viewDistributionPieSingleEval$range),3)
-        bam_promo=round( toplot$viewDistributionPieSingleEval$bam_promo/length(toplot$viewDistributionPieSingleEval$range_promo),3)
-        bam_intra=round( toplot$viewDistributionPieSingleEval$bam_intra/length(toplot$viewDistributionPieSingleEval$range_intra),3)
-        bam_inter=round( toplot$viewDistributionPieSingleEval$bam_inter/length(toplot$viewDistributionPieSingleEval$range_inter),3)
+        bam=round( toplot$viewDistributionPieSingleEval$bam/width(toplot$viewDistributionPieSingleEval$range),3)
+        bam_promo=round( toplot$viewDistributionPieSingleEval$bam_promo/width(toplot$viewDistributionPieSingleEval$range_promo),3)
+        bam_intra=round( toplot$viewDistributionPieSingleEval$bam_intra/width(toplot$viewDistributionPieSingleEval$range_intra),3)
+        bam_inter=round( toplot$viewDistributionPieSingleEval$bam_inter/width(toplot$viewDistributionPieSingleEval$range_inter),3)
         suppressWarnings(boxplot(bam,bam_promo,bam_intra,bam_inter,notch=TRUE,outline=FALSE,varwidth=TRUE,col=toplot$viewDistributionPieSingleEval$Colors,xaxt="n",ylab="Read density (rpm/bp)"))
       }
       axis(1,at=1:4,labels=c("All ranges","Promoter","Genebody","Intergenic"),las=2)
@@ -491,10 +504,10 @@ output$saveenrichmentBoxSingleEvaldata<- downloadHandler(
                   length(toplot$viewDistributionPieSingleEval$bam_intra),
                   length(toplot$viewDistributionPieSingleEval$bam_inter))
         arr=matrix(rep("",maxval*4),ncol=4)
-        arr[1:length(toplot$viewDistributionPieSingleEval$bam),1]=toplot$viewDistributionPieSingleEval$bam/length(toplot$viewDistributionPieSingleEval$range)
-        arr[1:length(toplot$viewDistributionPieSingleEval$bam_promo),2]=toplot$viewDistributionPieSingleEval$bam_promo/length(toplot$viewDistributionPieSingleEval$range_promo)
-        arr[1:length(toplot$viewDistributionPieSingleEval$bam_intra),3]=toplot$viewDistributionPieSingleEval$bam_intra/length(toplot$viewDistributionPieSingleEval$range_intra)
-        arr[1:length(toplot$viewDistributionPieSingleEval$bam_inter),4]=toplot$viewDistributionPieSingleEval$bam_inter/length(toplot$viewDistributionPieSingleEval$range_inter)
+        arr[1:length(toplot$viewDistributionPieSingleEval$bam),1]=toplot$viewDistributionPieSingleEval$bam/width(toplot$viewDistributionPieSingleEval$range)
+        arr[1:length(toplot$viewDistributionPieSingleEval$bam_promo),2]=toplot$viewDistributionPieSingleEval$bam_promo/width(toplot$viewDistributionPieSingleEval$range_promo)
+        arr[1:length(toplot$viewDistributionPieSingleEval$bam_intra),3]=toplot$viewDistributionPieSingleEval$bam_intra/width(toplot$viewDistributionPieSingleEval$range_intra)
+        arr[1:length(toplot$viewDistributionPieSingleEval$bam_inter),4]=toplot$viewDistributionPieSingleEval$bam_inter/width(toplot$viewDistributionPieSingleEval$range_inter)
       }
       colnames(arr)=c("all","promoters","genebody","intergenic")
       write.table(arr,file=file,row.names=FALSE,sep="\t",quote=FALSE   ) 
@@ -516,7 +529,7 @@ output$saveenrichmentProfileSingleEvalbutton<- downloadHandler(
     plot(0,type='n',xaxt="n",ylim=c(mins,maxs),xlim=c(0,50),ylab=toplot$viewDistributionPieSingleEval$ylabprofile,xlab="Genomic Window",
                         main="Shape profile",cex.main=1.2,cex=1,xaxt="n",cex.lab=1.2,cex.axis=1)
     for(i in 1:length(toplot$viewDistributionPieSingleEval$profile_to_plot)){
-      lines(toplot$viewDistributionPieSingleEval$profile_to_plot[[i]],pch=".",lwd=2,col=Colors[i])
+      lines(toplot$viewDistributionPieSingleEval$profile_to_plot[[i]],pch=".",lwd=3,col=Colors[i])
     }
 
     axis(1,at=seq(1,length(toplot$viewDistributionPieSingleEval$profile_to_plot[[1]]),length(toplot$viewDistributionPieSingleEval$profile_to_plot[[1]])/2-1),
@@ -666,8 +679,10 @@ observeEvent(input$plotCmp,{
 
     #now, check BAMlists of the 2 ROIs selected
     rawvals1=Enrichlist$rawcoverage[[pos1]]
+    keyvals1=Enrichlist$decryptkey[[pos1]]
     normvals1=Enrichlist$normfactlist[[pos1]]
     rawvals2=Enrichlist$rawcoverage[[pos2]]
+    keyvals2=Enrichlist$decryptkey[[pos2]]
     normvals2=Enrichlist$normfactlist[[pos2]]
     
     getbam1=names(rawvals1)  
@@ -693,8 +708,12 @@ observeEvent(input$plotCmp,{
       if(nchar(BAM1_choose)>0){
         pos_bam1_1=match(BAM1_choose,getbam1)
         bam1_1=rawvals1[[pos_bam1_1]]
+        keys1_1=keyvals1[[pos_bam1_1]]
         norm1_1=normvals1[[pos_bam1_1]]
-        bam1_1=unlist(lapply(bam1_1,sum))*norm1_1
+        #decrypt and sum
+        bam1_1=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=bam1_1,Nbins=1,Snorm=FALSE,key=keys1_1,norm_factor=norm1_1)
+        # bam1_1=decryptcov( list(bam1_1,keys1_1),chunk=length(bam1_1))
+        # bam1_1=unlist(lapply(bam1_1,sum))*norm1_1
         if(!is.null(bam1_1)){
           range1only_bam1=bam1_1[-qh]
           if (input$chooseNormalizationCmp=="readdensity"){
@@ -722,8 +741,12 @@ observeEvent(input$plotCmp,{
           pos_bam1_2=match(BAM1_choose,getbam2)
           if(!is.na(pos_bam1_2) & length(pos_bam1_2)>0){
             bam1_2=rawvals2[[pos_bam1_2]]
+            keys1_2=keyvals2[[pos_bam1_2]]
             norm1_2=normvals2[[pos_bam1_2]]
-            bam1_2=unlist(lapply(bam1_2,sum))*norm1_2
+            #decrypt and sum
+            bam1_2=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=bam1_2,Nbins=1,Snorm=FALSE,key=keys1_2,norm_factor=norm1_2)
+            # bam1_2=decryptcov( list(bam1_2,keys1_2),chunk=length(bam1_2))
+            # bam1_2=unlist(lapply(bam1_2,sum))*norm1_2
             range2only_bam1=bam1_2[-sh]       
             if(input$chooseNormalizationCmp=="readdensity") {
               range2only_bam1=range2only_bam1/width(range2_notov)
@@ -749,9 +772,12 @@ observeEvent(input$plotCmp,{
       if(nchar(BAM2_choose)>0){
         pos_bam2_2=match(BAM2_choose,getbam2)
         bam2_2=rawvals2[[pos_bam2_2]]
+        keys2_2=keyvals2[[pos_bam2_2]]
         norm2_2=normvals2[[pos_bam2_2]]
-        bam2_2=unlist(lapply(bam2_2,sum))*norm2_2
-
+        #decrypt and sum
+        bam2_2=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=bam2_2,Nbins=1,Snorm=FALSE,key=keys2_2,norm_factor=norm2_2)
+        # bam2_2=decryptcov( list(bam2_2,keys2_2),chunk=length(bam2_2))
+        # bam2_2=unlist(lapply(bam2_2,sum))*norm2_2
         if(!is.null(bam2_2)){
           range2only_bam2=bam2_2[-sh]
           if(input$chooseNormalizationCmp=="readdensity"){
@@ -769,8 +795,12 @@ observeEvent(input$plotCmp,{
           pos_bam2_1=match(BAM2_choose,getbam1)
           if(!is.na(pos_bam2_1) & length(pos_bam2_1)>0){
             bam2_1=rawvals1[[pos_bam2_1]]
+            keys2_1=keyvals1[[pos_bam2_1]]
             norm2_1=normvals1[[pos_bam2_1]]
-            bam2_1=unlist(lapply(bam2_1,sum))*norm2_1
+            #decrypt and sum
+            bam2_1=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=bam2_1,Nbins=1,Snorm=FALSE,key=keys2_1,norm_factor=norm2_1)
+            # bam2_1=decryptcov( list(bam2_1,keys2_1),chunk=length(bam2_1))
+            # bam2_1=unlist(lapply(bam2_1,sum))*norm2_1
             range1only_bam2=bam2_1[-qh]
             if(input$chooseNormalizationCmp=="readdensity"){
               range1only_bam2=range1only_bam2/width(range1_notov)
@@ -1331,6 +1361,7 @@ observeEvent(toListenDigitalHeat(),{
     #all master rois selected
     roi=ROIvariables$listROI[pos]
     rawvals=Enrichlist$rawcoverage[pos]
+    keyvals=Enrichlist$decryptkey[pos]
     normvals=Enrichlist$normfactlist[pos]
     maxbinstohave=min(unlist(lapply(roi,checkMaxBins)))
     
@@ -1369,6 +1400,7 @@ observeEvent(toListenDigitalHeat(),{
       nbin=input$binsDigitalHeat
       bigrange=list()
       bigbamlist=list()
+      bigkeyvalslist=list()
       bignormlist=list()
       fixes=list()
       ranges_forclick=list()
@@ -1383,18 +1415,23 @@ observeEvent(toListenDigitalHeat(),{
         ranges_forclick[[i]]=rangeroi
 
 
-		bigbamlist[[i]]=rawvals[[i]]
-		bamlist2=list()
-		if(length(bigbamlist[[i]])>0){
-		  	for(j in 1:length(bigbamlist[[i]])){
-		    	element_i=bigbamlist[[i]][[j]]
-		    	#remove duplicated positions
-		    	bamlist2[[j]]=element_i[pos_notdup_range]
-		    }		    
-		}
-		bigbamlist[[i]]=bamlist2
+    		bigbamlist[[i]]=rawvals[[i]]
+        bigkeyvalslist[[i]]=keyvals[[i]]
+    		bamlist2=list()
+        keylist2=list()
+    		if(length(bigbamlist[[i]])>0){
+    		  	for(j in 1:length(bigbamlist[[i]])){
+    		    	element_i=bigbamlist[[i]][[j]]
+    		    	#remove duplicated positions
+    		    	bamlist2[[j]]=element_i[pos_notdup_range]
+              element_j=bigkeyvalslist[[i]][[j]]
+              keylist2[[j]]=element_j[pos_notdup_range]
+    		    }		    
+    		}
+    		bigbamlist[[i]]=bamlist2
+        bigkeyvalslist[[i]]=keylist2
 
-        names(bigbamlist[[i]])=names(rawvals[[i]])
+        names(bigbamlist[[i]])=names(bigkeyvalslist[[i]])=names(rawvals[[i]])
 
         
         bignormlist[[i]]=normvals[[i]]
@@ -1966,17 +2003,13 @@ observeEvent(toListenDigitalHeat(),{
       #here put code for colored cluster column at the left of the digital heatmap
       #conditions: must be "cluster" (not "ranked") and must have number ROI ==1
       #otherwise plot NULL. Less bins, more balanced clusters.
-      set.seed(123)
-      color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
+      #set.seed(123)
+      #color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
       
       toplot$digital$clusternumbermatrix=NULL
       if(length(input$ROImaster) ==1 & length(input$ROIforClusteringDigitalHeat)>0 ){
-        color_distinct_cluster=sample(color, toplot$digital$clustnumDigitalHeat)
-        #for this line of code, thanks to
-        # http://stackoverflow.com/questions/15282580/how-to-generate-a-number-of-most-distinctive-colors-in-r
-        # Jelena-bioinf / Megatron
-        
-
+        #color_distinct_cluster=sample(colors_list, toplot$digital$clustnumDigitalHeat)
+        color_distinct_cluster=colors_list[1:toplot$digital$clustnumDigitalHeat]
         if(toplot$digital$clustnumDigitalHeat<=433 & toplot$digital$clustnumDigitalHeat>0){        
           if(!is.null(toplot$digital$clustering$clustobj)){
 
@@ -1987,19 +2020,23 @@ observeEvent(toListenDigitalHeat(),{
             #and the only master ROI selected):
             range_tokeep=ranges_forclick[[1]]
             bams_tokeep=bigbamlist[[1]]
+            keyvals_tokeep=bigkeyvalslist[[1]]
             normfact_tokeep=bignormlist[[1]]
             fix_tokeep=fixes[[1]]
             #2-subsample them (1 single ROI)
             range_tokeep=range_tokeep[Digital_sample_pos]
             bams_tokeep=lapply(bams_tokeep,function(bamob){bamob[Digital_sample_pos]})
+            keyvals_tokeep=lapply(keyvals_tokeep,function(kvalob){kvalob[Digital_sample_pos]})
             fix_tokeep=fix_tokeep[Digital_sample_pos]
             #3-re-ordering based on clustering (toplot$digital$clustering$clustobj$ord)
             range_tokeep=range_tokeep[toplot$digital$clustering$ord]
             bams_tokeep=lapply(bams_tokeep,function(bamob){bamob[toplot$digital$clustering$ord]})
+            keyvals_tokeep=lapply(keyvals_tokeep,function(kvalob){kvalob[toplot$digital$clustering$ord]})
             fix_tokeep=fix_tokeep[toplot$digital$clustering$ord]
             #4-save in temporary variables to be used by clicking the clsuter of digital
             toplot$digital$range_tokeep=range_tokeep
             toplot$digital$bams_tokeep=bams_tokeep
+            toplot$digital$keyvals_tokeep=keyvals_tokeep
             toplot$digital$fix_tokeep=fix_tokeep
             #add also norm factors (not subsampled nor reordered, but keep them)
             toplot$digital$normfact_tokeep=normfact_tokeep
@@ -2031,6 +2068,7 @@ observeEvent(toListenDigitalHeat(),{
             toplot$digital$clusternumbermatrix=NULL
             toplot$digital$range_tokeep=NULL
             toplot$digital$bams_tokeep=NULL
+            toplot$digital$keyvals_tokeep=NULL
             toplot$digital$normfact_tokeep=NULL
             toplot$digital$fix_tokeep=NULL
           }
@@ -2040,6 +2078,7 @@ observeEvent(toListenDigitalHeat(),{
           toplot$digital$clusternumbermatrix=NULL
           toplot$digital$range_tokeep=NULL
           toplot$digital$bams_tokeep=NULL
+          toplot$digital$keyvals_tokeep=NULL
           toplot$digital$normfact_tokeep=NULL
           toplot$digital$fix_tokeep=NULL
         }
@@ -2050,6 +2089,7 @@ observeEvent(toListenDigitalHeat(),{
         toplot$digital$color_distinct_cluster=NULL
         toplot$digital$range_tokeep=NULL
         toplot$digital$bams_tokeep=NULL
+        toplot$digital$keyvals_tokeep=NULL
         toplot$digital$normfact_tokeep=NULL
         toplot$digital$fix_tokeep=NULL
       }
@@ -2112,7 +2152,8 @@ observeEvent(toListenDigitalHeat(),{
         
         toplot$digital$freq_overlap=freq_overlap
         toplot$digital$length_subsets=length_subsets
-        color_distinct_bias=sample(color, length(freq_overlap)*length(freq_overlap[[1]]))
+        color_distinct_bias=colors_list[1:length(freq_overlap)*length(freq_overlap[[1]])]
+        #color_distinct_bias=sample(color, length(freq_overlap)*length(freq_overlap[[1]]))
         toplot$digital$color_distinct_bias=color_distinct_bias
 
         output$frequencyOvDigitalHeat <- renderPlot({
@@ -2136,7 +2177,7 @@ observeEvent(toListenDigitalHeat(),{
           for(i in 1:length(ovtoplot)){
             for(k in 1:length(ovtoplot[[i]])){
               #draw the lines/points
-              lines(ovtoplot[[i]][[k]],col=color_distinct_bias[count])
+              lines(ovtoplot[[i]][[k]],col=color_distinct_bias[count],lwd=3)
               legnames[count]=paste(names(ovtoplot[[i]])[k],"in",names(ovtoplot)[i])
               count=count+1
             }
@@ -2144,7 +2185,7 @@ observeEvent(toListenDigitalHeat(),{
           axis(1,at=seq(1,nbin,(nbin-1)/2),
                       labels=c( "start","midpoint","end" ),cex.axis=1)
           #legend for each line
-          legend("topleft",legend=legnames,lty=rep(1,length(legnames)),col=color_distinct_bias,bg="transparent")
+          legend("topleft",legend=legnames,lty=rep(1,length(legnames)),col=color_distinct_bias,bg="transparent",lwd=3)
         })
         output$savefrequencyOvDigitalHeat=renderUI({downloadButton('savefrequencyOvDigitalHeatbutton', 'Get PDF')})
       }else{
@@ -2291,6 +2332,7 @@ observeEvent(toListenDigitalHeat(),{
       output$clustersImageLeftDigital<-renderPlot({NULL})
       toplot$digital$range_tokeep=NULL
       toplot$digital$bams_tokeep=NULL
+      toplot$digital$keyvals_tokeep=NULL
       toplot$digital$normfact_tokeep=NULL
       toplot$digital$fix_tokeep=NULL
       output$newROIfromDigitalHeat_out<-renderUI({NULL})
@@ -2320,6 +2362,7 @@ observeEvent(toListenDigitalHeat(),{
     output$clustersImageLeftDigital<-renderPlot({NULL})
     toplot$digital$range_tokeep=NULL
     toplot$digital$bams_tokeep=NULL
+    toplot$digital$keyvals_tokeep=NULL
     toplot$digital$normfact_tokeep=NULL
     toplot$digital$fix_tokeep=NULL
     output$newROIfromDigitalHeat_out<-renderUI({NULL})
@@ -2513,7 +2556,7 @@ output$savefrequencyOvDigitalHeatbutton<- downloadHandler(
     for(i in 1:length(ovtoplot)){
       for(k in 1:length(ovtoplot[[i]])){
         #draw the lines/points
-        lines(ovtoplot[[i]][[k]],col=toplot$digital$color_distinct_bias[count])
+        lines(ovtoplot[[i]][[k]],col=toplot$digital$color_distinct_bias[count],lwd=3)
         legnames[count]=paste(names(ovtoplot[[i]])[k],"in",names(ovtoplot)[i])
         count=count+1
       }
@@ -2521,7 +2564,7 @@ output$savefrequencyOvDigitalHeatbutton<- downloadHandler(
     axis(1,at=seq(1,toplot$digital$nbin,(toplot$digital$nbin-1)/2),
                 labels=c( "start","midpoint","end" ),cex.axis=1)
     #legend for each line
-    legend("topleft",legend=legnames,lty=rep(1,length(legnames)),col=toplot$digital$color_distinct_bias,bg="transparent")    
+    legend("topleft",legend=legnames,lty=rep(1,length(legnames)),col=toplot$digital$color_distinct_bias,bg="transparent",lwd=3)    
     dev.off()
   }
 )
@@ -2592,6 +2635,7 @@ observeEvent(input$confirmImportROIfromDigitalHeat,{
           ##extract range, fix, bamlist ordered corresponding to the cluster selected
           range_sel=toplot$digital$range_tokeep[toplot$gadgetdigital$ybottom:toplot$gadgetdigital$ytop]
           bams_sel=lapply(toplot$digital$bams_tokeep,function(bamob){bamob[toplot$gadgetdigital$ybottom:toplot$gadgetdigital$ytop]})
+          keyvals_sel=lapply(toplot$digital$keyvals_tokeep,function(bamob){bamob[toplot$gadgetdigital$ybottom:toplot$gadgetdigital$ytop]})
           fix_sel=toplot$digital$fix_tokeep[toplot$gadgetdigital$ybottom:toplot$gadgetdigital$ytop]
 
           # #take from listROI the toplot$digital$labelstosplit name
@@ -2606,6 +2650,7 @@ observeEvent(input$confirmImportROIfromDigitalHeat,{
           toadd=paste("extracted ",length(range_sel)," ranges from digital heatmap",sep="")
           newSource=c(oldSource,list(toadd))    
           Enrichlist$rawcoverage[[input$newROIfromDigitalHeat]]=bams_sel
+          Enrichlist$decryptkey[[input$newROIfromDigitalHeat]]=keyvals_sel
           Enrichlist$normfactlist[[input$newROIfromDigitalHeat]]=toplot$digital$normfact_tokeep
           ROIvariables$listROI[[length(ROIvariables$listROI)+1]]=new("RegionOfInterest",
                                 name=input$newROIfromDigitalHeat,
@@ -2764,6 +2809,7 @@ observeEvent(toListenAnalogHeat(),{
     roi=ROIvariables$listROI[pos]
 
     rawvals=Enrichlist$rawcoverage[pos]
+    keyvals=Enrichlist$decryptkey[pos]
     normvals=Enrichlist$normfactlist[pos]
 
     maxbinstohave=min(unlist(lapply(roi,checkMaxBins)))
@@ -2779,6 +2825,8 @@ observeEvent(toListenAnalogHeat(),{
       bamnames=list()
       normlisttouse=list() #for usage, same as bigbamlist
       normlisttostore=list() #for extraction, same as BAMs
+      keylisttouse=list()
+      keylisttostore=list()
       completerange=list()
       for(i in 1:length(roi)){
         #may cause problems: slow and when re-build ROI from heatmap selection,
@@ -2798,27 +2846,35 @@ observeEvent(toListenAnalogHeat(),{
         #we must also collapse enrichments. uniqueROI function works only for ranges and fixes
         #because BAMlist attribute has been removed in the last version
         totbams=rawvals[[i]]
-		bamlist2=list()
-		if(length(totbams)>0){
-		  	for(j in 1:length(totbams)){
-		    	element_i=totbams[[j]]
-		    	#remove duplicated positions
-		    	bamlist2[[j]]=element_i[pos_notdup_range]
-		    }		    
-		}
-		totbams=bamlist2
-		BAMs[[i]]=totbams
+        totkeys=keyvals[[i]]
+    		bamlist2=list()
+        keyvals2=list()
+    		if(length(totbams)>0){
+    		  	for(j in 1:length(totbams)){
+    		    	element_i=totbams[[j]]
+    		    	#remove duplicated positions
+    		    	bamlist2[[j]]=element_i[pos_notdup_range]
+              element_k=totkeys[[j]]
+              keyvals2[[j]]=element_k[pos_notdup_range]
+    		    }		    
+    		}
+    		totbams=bamlist2
+        totkeys=keyvals2
+    		BAMs[[i]]=totbams
+        keylisttostore[[i]]=totkeys
         normlisttostore[[i]]=normvals[[i]]
         #order even if BAM reordered, should be fine
         bamnames[[i]]=names(rawvals[[i]])
         pos2=match(toplot$analogic$BAMsForAnalogHeat,bamnames[[i]])
         bigbamlist[[i]]=totbams[pos2]
+        keylisttouse[[i]]=totkeys[pos2]
         normlisttouse[[i]]=normvals[[i]][pos2]
         
       }
       #collapse all selected ranges into a single, big range list
       #this is useful for random sampling, to keep the proportions of the lengths
       
+
       finalrange=Reduce(c,bigrange)
       # finalfixes=Reduce(c,fixes)
       
@@ -2882,11 +2938,12 @@ observeEvent(toListenAnalogHeat(),{
             if(length(roi)==length(unique(labelstosplit))){
               strand_sampled=split( as.factor(strand(finalrange_sampled)) ,factor(labelstosplit,levels=unique(labelstosplit)))
               positions_splitted=split( finalBAMs_sample_pos ,factor(labelstosplit,levels=unique(labelstosplit)))
+              
               #print("preparing material for ROI extraction...")
               #########prepare for ROI xtraction from heatmap#############
-              finalbam=list()
+              finalbam=finalkey=list()
               for(i in 1:length(BAMs)){
-                finalbam[[i]]=as.list(rep(NA,length(BAMs[[i]])))
+                finalbam[[i]]=finalkey[[i]]=as.list(rep(NA,length(BAMs[[i]])))
               }
               cumulatesum=0
               #for each ROI
@@ -2895,31 +2952,41 @@ observeEvent(toListenAnalogHeat(),{
                 #it's a RELATIVE position from the beginning of that label, so subtract what is previous
                 for (k in 1:length(BAMs[[i]])){
                   finalbam[[i]][[k]]=BAMs[[i]][[k]][positions_splitted[[i]]-cumulatesum]
+                  finalkey[[i]][[k]]=keylisttostore[[i]][[k]][positions_splitted[[i]]-cumulatesum]
                 }
-                names(finalbam[[i]])=bamnames[[i]]
+                names(finalbam[[i]])=names(finalkey[[i]])=bamnames[[i]]
                 #the same of ROIs (complete, if have different columns):
                 completerange[[i]]=completerange[[i]][positions_splitted[[i]]-cumulatesum]
                 fixes[[i]]=fixes[[i]][positions_splitted[[i]]-cumulatesum]
                 cumulatesum=cumulatesum+length(BAMs[[i]][[1]])
               }
-              names(finalbam)=input$ROIsForAnalogHeat
+              names(finalbam)=names(finalkey)=input$ROIsForAnalogHeat
+
               #here, the normalizations should keep the same as before: normlisttostore, because they 
               #do not undergo random sample (one single value for each enrichment!)
               #split also finalrange_sampled and fixes according to "labelstosplit"
               # finalrange_sampled_split=split( finalrange_sampled ,factor(labelstosplit,levels=unique(labelstosplit)))
               # fixes_sampled_split=split( fixes ,factor(labelstosplit,levels=unique(labelstosplit)))          
               ############################################################
+
               #print("prepared...")
               #combine lists from different ROIs (c)
               subselectedBAMlist=list()
+              subselectkeylist=list()
               for(i in 1:length(bigbamlist[[1]])){
                 provv=list()
+                provvkey=c()
                 #for each ROI
                 for (k in 1:length(bigbamlist)){
                   provv=c(provv,bigbamlist[[k]][[i]])
+                  provvkey=c(provvkey,keylisttouse[[k]][[i]])
                 }   
                 #subselect "provv": provv is the big union of all ROI for a specific BAM
                 provv=provv[finalBAMs_sample_pos]
+                provvkey=provvkey[finalBAMs_sample_pos]
+                #decrypt (now light because already subsampled)
+                #provv=decryptcov( list(provv,provvkey),chunk=length(provv))
+                subselectkeylist[[i]]=provvkey
                 subselectedBAMlist[[i]]=provv
               }
               #use only finalBAMs_sample_pos positions sample. This is because the "random" sample
@@ -2932,11 +2999,14 @@ observeEvent(toListenAnalogHeat(),{
               #ROIs must be in the higher order hierarchy of list 
               slicedbamlist=as.list(rep(NA,length(toplot$analogic$BAMsForAnalogHeat)))
               slicedbamlist=rep(list(slicedbamlist),length(input$ROIsForAnalogHeat))
+              slicedkeylist=slicedbamlist
               for(i in 1:length(subselectedBAMlist)){
                 slicedbamlist2=split(subselectedBAMlist[[i]],factor(labelstosplit,levels=unique(labelstosplit)))
+                slicedkeylist2=split(subselectkeylist[[i]],factor(labelstosplit,levels=unique(labelstosplit)))
                 #for each ROI obtained after split
                 for(k in 1:length(slicedbamlist2)){
                   slicedbamlist[[k]][[i]]=slicedbamlist2[[k]]
+                  slicedkeylist[[k]][[i]]=slicedkeylist2[[k]]
                 }      
               }
               #here, check if normlisttouse follows the same hierarchy of slicedbamlist (ROI/enrich)
@@ -2949,7 +3019,7 @@ observeEvent(toListenAnalogHeat(),{
               roisSelected=ROIvariables$listROI[pos]
               getwdth=lapply(roisSelected,getWidth) 
               widths=Reduce(union,getwdth)
-              
+
               if(length(slicedbamlist)<length(slicedbamlist[[1]])){
                 #if BAMs>ROIs, paralllize at BAM level
                 matlists=lapply(1:length(slicedbamlist),function(i) {
@@ -2957,13 +3027,14 @@ observeEvent(toListenAnalogHeat(),{
 
                   if(nc==1){
                     matlist=lapply(1:length(slicedbamlist[[i]]),function(k) {
-                                        return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]]))
+                                        return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]],key=slicedkeylist[[i]][[k]]))
                                       })
                   }else{
                     decision=0
                     tryCatch({
                       matlist=mclapply(1:length(slicedbamlist[[i]]),function(k) {
-                                        return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]]))
+                       
+                                        return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]],key=slicedkeylist[[i]][[k]]))
                                       },mc.cores=nc) 
                       #if multicore returned correctly, decision==1, following if won't be calculated..
                       decision=1
@@ -2978,7 +3049,7 @@ observeEvent(toListenAnalogHeat(),{
                     if(decision==0){
                       print("Detected problems, maybe memory limits...")
                       matlist=lapply(1:length(slicedbamlist[[i]]),function(k) {
-                                        return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]]))
+                                        return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]],key=slicedkeylist[[i]][[k]]))
                                       })
                     }
                   }
@@ -3005,7 +3076,7 @@ observeEvent(toListenAnalogHeat(),{
                   matlists=lapply(1:length(slicedbamlist),function(i) {
                     #in case, filter for transcript flag if mem problems
                     matlist=lapply(1:length(slicedbamlist[[i]]),function(k) {
-                                          return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]]))
+                                          return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]],key=slicedkeylist[[i]][[k]]))
                                         }) 
                     ###HERE invert "-" strand. They are in strand_sampled list. each element of this list
                     ###is a ROI. With "bamsignals" package, negative strand is already reversed at the beginning
@@ -3026,7 +3097,8 @@ observeEvent(toListenAnalogHeat(),{
                     matlists=mclapply(1:length(slicedbamlist),function(i) {
                       #in case, filter for transcript flag if mem problems
                       matlist=lapply(1:length(slicedbamlist[[i]]),function(k) {
-                                            return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]]))
+                        
+                                            return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]],key=slicedkeylist[[i]][[k]]))
                                           }) 
                       ###HERE invert "-" strand. They are in strand_sampled list. each element of this list
                       ###is a ROI. With "bamsignals" package, negative strand is already reversed at the beginning
@@ -3056,7 +3128,7 @@ observeEvent(toListenAnalogHeat(),{
                       #in case, filter for transcript flag if mem problems
 
                       matlist=lapply(1:length(slicedbamlist[[i]]),function(k) {
-                                            return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]]))
+                                            return(makeMatrixFrombaseCoverage(slicedbamlist[[i]][[k]],Nbins=nbintouse,Snorm=TRUE,norm_factor=normlisttouse[[i]][[k]],key=slicedkeylist[[i]][[k]]))
                                           }) 
                       ###HERE invert "-" strand. They are in strand_sampled list. each element of this list
                       ###is a ROI. With "bamsignals" package, negative strand is already reversed at the beginning
@@ -3215,6 +3287,8 @@ observeEvent(toListenAnalogHeat(),{
                 }
               }
               
+
+
               #print("clustering done if selected...")
               #if completematrix is not NULL (fixed size, cluster it with the same order as returned by
               # finalmats!)
@@ -3225,11 +3299,13 @@ observeEvent(toListenAnalogHeat(),{
                 fixes[[i]]=fixes[[i]][toorder_final[[i]]]
                 for(k in 1:length(finalbam[[i]])){
                   finalbam[[i]][[k]]=finalbam[[i]][[k]][toorder_final[[i]]]
+                  finalkey[[i]][[k]]=finalkey[[i]][[k]][toorder_final[[i]]]
                 }
               }
               
               toplot$analogic$finalrange=completerange
               toplot$analogic$finalbam=finalbam
+              toplot$analogic$finalkey=finalkey
               toplot$analogic$finalnorm=normlisttostore
               toplot$analogic$finalfixes=fixes
 
@@ -3282,12 +3358,11 @@ observeEvent(toListenAnalogHeat(),{
               
               toplot$analogic$clusternumbermatrix=NULL
               if(isclusteringok){
-                set.seed(123)
-                #for this line of code, thanks to
-                # http://stackoverflow.com/questions/15282580/how-to-generate-a-number-of-most-distinctive-colors-in-r
-                # Jelena-bioinf / Megatron
-                color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
-                color_distinct_cluster=sample(color, heatvariables$clustnumAnalogHeat)
+                #set.seed(123)
+                #color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
+                #color_distinct_cluster=sample(color, heatvariables$clustnumAnalogHeat)
+                color_distinct_cluster=colors_list[1:heatvariables$clustnumAnalogHeat]
+
                 toplot$analogic$color_distinct_cluster=color_distinct_cluster
                 #if clustering is hierarchical
                 if (toplot$analogic$clusterTypeAnalogHeat=="hierarchical"){
@@ -3586,6 +3661,7 @@ observeEvent(toListenAnalogHeat(),{
               output$textNameAnalogHeat <- renderPlot({NULL})
               toplot$analogic$finalrange=NULL
               toplot$analogic$finalbam=NULL
+              toplot$analogic$finalkey=NULL
               toplot$analogic$finalnorm=NULL
               toplot$analogic$finalfixes=NULL
               heatvariables$matlist=NULL   
@@ -3614,6 +3690,7 @@ observeEvent(toListenAnalogHeat(),{
             output$textNameAnalogHeat <- renderPlot({NULL})
             toplot$analogic$finalrange=NULL
             toplot$analogic$finalbam=NULL
+            toplot$analogic$finalkey=NULL
             toplot$analogic$finalnorm=NULL
             toplot$analogic$finalfixes=NULL
             heatvariables$matlist=NULL   
@@ -3646,6 +3723,7 @@ observeEvent(toListenAnalogHeat(),{
           output$textNameAnalogHeat <- renderPlot({NULL})
           toplot$analogic$finalrange=NULL
           toplot$analogic$finalbam=NULL
+          toplot$analogic$finalkey=NULL
           toplot$analogic$finalnorm=NULL
           toplot$analogic$finalfixes=NULL
           heatvariables$matlist=NULL   
@@ -3676,6 +3754,7 @@ observeEvent(toListenAnalogHeat(),{
         output$textNameAnalogHeat <- renderPlot({NULL})
         toplot$analogic$finalrange=NULL
         toplot$analogic$finalbam=NULL
+        toplot$analogic$finalkey=NULL
         toplot$analogic$finalnorm=NULL
         toplot$analogic$finalfixes=NULL
         heatvariables$matlist=NULL
@@ -3700,6 +3779,7 @@ observeEvent(toListenAnalogHeat(),{
       output$textNameAnalogHeat <- renderPlot({NULL})
       toplot$analogic$finalrange=NULL
       toplot$analogic$finalbam=NULL
+      toplot$analogic$finalkey=NULL
       toplot$analogic$finalnorm=NULL
       toplot$analogic$finalfixes=NULL
       heatvariables$matlist=NULL
@@ -3725,6 +3805,7 @@ observeEvent(toListenAnalogHeat(),{
     output$textNameAnalogHeat <- renderPlot({NULL})
     toplot$analogic$finalrange=NULL
     toplot$analogic$finalbam=NULL
+    toplot$analogic$finalkey=NULL
     toplot$analogic$finalnorm=NULL
     toplot$analogic$finalfixes=NULL
     heatvariables$matlist=NULL
@@ -3975,9 +4056,9 @@ output$saveprofileAnalogHeatbutton<- downloadHandler(
       axis(1,at=c(1,length(portionlist_profile[[1]])/2 +0.5,length(portionlist_profile[[1]])),labels=c("start","center","end"))
 
       for(i in 1:length(portionlist_profile)){
-        lines(portionlist_profile[[i]],lwd=2,col=toplot$gadgetanalogic$color_distinct[i])
+        lines(portionlist_profile[[i]],lwd=3,col=toplot$gadgetanalogic$color_distinct[i])
       }
-      legend("topright",legend=names(portionlist_profile),col=toplot$gadgetanalogic$color_distinct,lty=rep(1,length(toplot$gadgetanalogic$color_distinct)),cex=0.6,bg="transparent")   
+      legend("topright",legend=names(portionlist_profile),col=toplot$gadgetanalogic$color_distinct,lty=rep(1,length(toplot$gadgetanalogic$color_distinct)),cex=0.6,bg="transparent",lwd=3)   
 
       dev.off()
   } 
@@ -4234,12 +4315,14 @@ observeEvent(input$confirmImportROIfromAnalogHeat,{
             correct_range=toplot$analogic$finalrange[[pos]][newstart:newstop]
             correct_fix=toplot$analogic$finalfixes[[pos]][newstart:newstop]
             correct_bams=toplot$analogic$finalbam[[pos]]
+            correct_keys=toplot$analogic$finalkey[[pos]]
             correct_norm=toplot$analogic$finalnorm[[pos]]
-            newBAMlist=as.list(rep(NA,length(correct_bams)))
+            newBAMlist=newkeylist=as.list(rep(NA,length(correct_bams)))
             for(i in 1:length(newBAMlist)){
               newBAMlist[[i]]=correct_bams[[i]][newstart:newstop]
+              newkeylist[[i]]=correct_keys[[i]][newstart:newstop]
             }
-            names(newBAMlist)=names(correct_bams)
+            names(newBAMlist)=names(newkeylist)=names(correct_bams)
             nomitot=unlist(lapply(ROIvariables$listROI,getName))
             postot=match(unique(label_selected),nomitot)
 
@@ -4253,6 +4336,7 @@ observeEvent(input$confirmImportROIfromAnalogHeat,{
               newSource=c(oldSource,list(toadd))
               #we should have all the elements... create ROI!
               Enrichlist$rawcoverage[[input$newROIfromAnalogHeat]]=newBAMlist
+              Enrichlist$decryptkey[[input$newROIfromAnalogHeat]]=newkeylist
               Enrichlist$normfactlist[[input$newROIfromAnalogHeat]]=correct_norm
               ROIvariables$listROI[[length(ROIvariables$listROI)+1]]=new("RegionOfInterest",
                                               name=input$newROIfromAnalogHeat,
@@ -4388,14 +4472,16 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
     #all rois selected
     roi=ROIvariables$listROI[pos]
     rawvals=Enrichlist$rawcoverage[pos]
+    keyvals=Enrichlist$decryptkey[pos]
     normvals=Enrichlist$normfactlist[pos]
     maxbinstohave=min(unlist(lapply(roi,checkMaxBins)))
 
     toplot$profileAndBoxes$maxbinstohave=maxbinstohave
     
-    if(input$binsProfilesAndBox<maxbinstohave){
+    if(input$binsProfilesAndBox<=maxbinstohave){
       nameROI=unlist(lapply(roi,getName))
       bigbamlist=list()
+      bigkeyvalslist=list()
       bignormlist=list()
       strands=as.list(rep(NA,length(roi)))
       for(i in 1:length(roi)){
@@ -4406,11 +4492,12 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
         pos2=match(input$BAMsForProfilesAndBox,allbams)
         #order even if BAM reordered, should be fine
         bigbamlist[[i]]=rawvals[[i]][pos2]
+        bigkeyvalslist[[i]]=keyvals[[i]][pos2]
         bignormlist[[i]]=normvals[[i]][pos2]
-        names(bigbamlist[[i]])=input$BAMsForProfilesAndBox
-        names(bignormlist[[i]])=input$BAMsForProfilesAndBox
+        names(bigbamlist[[i]])=names(bigkeyvalslist[[i]])=names(bignormlist[[i]])=input$BAMsForProfilesAndBox
+       
       }
-      names(bigbamlist)=names(bignormlist)=nameROI
+      names(bigbamlist)=names(bigkeyvalslist)=names(bignormlist)=nameROI
       
       #from bigbamlist (1st order: roi, 2nd order: BAM) do the binning from baseCOverage to matrix
 
@@ -4427,7 +4514,9 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
       if(nc==1){
         matlists=lapply(1:length(bigbamlist),function(i) {
           matlist=lapply(1:length(bigbamlist[[i]]),function(k) {
-                      return(makeMatrixFrombaseCoverage(bigbamlist[[i]][[k]],Nbins=binstouse,Snorm=Snorm_logic,norm_factor=bignormlist[[i]][[k]]))
+                      provv=bigbamlist[[i]][[k]]
+                      #provv=decryptcov( list(provv,bigkeyvalslist[[i]][[k]]),chunk=length(provv))
+                      return(makeMatrixFrombaseCoverage(GRbaseCoverageOutput=provv,Nbins=binstouse,Snorm=Snorm_logic,key=bigkeyvalslist[[i]][[k]],norm_factor=bignormlist[[i]][[k]]))
                     }) 
           names(matlist)=names(bigbamlist[[i]])
           # ###HERE invert "-" strand. They are in strands list. each element of this list
@@ -4450,7 +4539,9 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
           if(length(bigbamlist)>length(bigbamlist[[i]])){
             matlists=mclapply(1:length(bigbamlist),function(i) {
               matlist=lapply(1:length(bigbamlist[[i]]),function(k) {
-                          return(makeMatrixFrombaseCoverage(bigbamlist[[i]][[k]],Nbins=binstouse,Snorm=Snorm_logic,norm_factor=bignormlist[[i]][[k]]))
+                      provv=bigbamlist[[i]][[k]]
+                      #provv=decryptcov( list(provv,bigkeyvalslist[[i]][[k]]),chunk=length(provv))
+                      return(makeMatrixFrombaseCoverage(GRbaseCoverageOutput=provv,Nbins=binstouse,Snorm=Snorm_logic,key=bigkeyvalslist[[i]][[k]],norm_factor=bignormlist[[i]][[k]]))
                         }) 
               names(matlist)=names(bigbamlist[[i]])
 
@@ -4472,7 +4563,9 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
           }else{
             matlists=lapply(1:length(bigbamlist),function(i) {
               matlist=mclapply(1:length(bigbamlist[[i]]),function(k) {
-                          return(makeMatrixFrombaseCoverage(bigbamlist[[i]][[k]],Nbins=binstouse,Snorm=Snorm_logic,norm_factor=bignormlist[[i]][[k]]))
+                      provv=bigbamlist[[i]][[k]]
+                      #provv=decryptcov( list(provv,bigkeyvalslist[[i]][[k]]),chunk=length(provv))
+                      return(makeMatrixFrombaseCoverage(GRbaseCoverageOutput=provv,Nbins=binstouse,Snorm=Snorm_logic,key=bigkeyvalslist[[i]][[k]],norm_factor=bignormlist[[i]][[k]]))
                         },mc.cores=nc) 
               names(matlist)=names(bigbamlist[[i]])
 
@@ -4504,7 +4597,9 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
         if(decision==0){
           matlists=lapply(1:length(bigbamlist),function(i) {
             matlist=lapply(1:length(bigbamlist[[i]]),function(k) {
-                        return(makeMatrixFrombaseCoverage(bigbamlist[[i]][[k]],Nbins=binstouse,Snorm=Snorm_logic,norm_factor=bignormlist[[i]][[k]]))
+                      provv=bigbamlist[[i]][[k]]
+                      #provv=decryptcov( list(provv,bigkeyvalslist[[i]][[k]]),chunk=length(provv))
+                      return(makeMatrixFrombaseCoverage(GRbaseCoverageOutput=provv,Nbins=binstouse,Snorm=Snorm_logic,key=bigkeyvalslist[[i]][[k]],norm_factor=bignormlist[[i]][[k]]))
                       }) 
             names(matlist)=names(bigbamlist[[i]])
 
@@ -4531,14 +4626,17 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
       #obtain list form list of lists
       portionlist=list()
       listforbox=list()
+      keysforbox=list()
       normforbox=list()
       for(i in 1:length(matlists)){
         provv=matlists[[i]]
         provv_box=bigbamlist[[i]]
+        provv_keybox=bigkeyvalslist[[i]]
         provv_normbox=bignormlist[[i]]
         names(provv)=names(provv_box)=names(provv_normbox)=paste("ROI:",names(matlists)[i]," (",nrow(matlists[[i]][[1]]),"); ",names(matlists[[i]]),sep="" )
         portionlist=c(portionlist,provv)
         listforbox=c(listforbox,provv_box)
+        keysforbox=c(keysforbox,provv_keybox)
         normforbox=c(normforbox,provv_normbox)
       }
 
@@ -4555,9 +4653,13 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
       #of the division
       portionlist_boxes=lapply(1:length(listforbox),function(i){
         block=listforbox[[i]]
+        key=keysforbox[[i]]
         norm=normforbox[[i]]
         len=sapply(block,length)
-        mat_boxes=sapply(block,sum)*norm
+        #decrypt and normalize data for boxes
+        mat_boxes=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=block,Nbins=1,Snorm=FALSE,key=key,norm_factor=norm)
+        # block=decryptcov( list(block,key),chunk=length(block))
+        # mat_boxes=sapply(block,sum)*norm
         if(input$chooseNormalizationProfilesAndBox=="readdensity"){
           mat_boxes=mat_boxes/len
         }  
@@ -4567,9 +4669,12 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
 
       n=length(portionlist_profile)
       #ROIvariables$colorsfordensity <- distinctColorPalette(n)
-      qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
-      col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
-      color_distinct <-sample(col_vector, n)
+      # qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
+      # col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+      # color_distinct <-sample(col_vector, n)
+
+
+      color_distinct=colors_list[1:n]
 
       if(input$chooseNormalizationProfilesAndBox=="readdensity"){
         yl="Read density (rpm/bp)"
@@ -4610,9 +4715,9 @@ observeEvent(input$confirmUpdateProfilesAndBox,{
         plot(1, type="n", xlab="",xaxt="n", ylab=yl, xlim=c(1, length(portionlist_profile[[1]])), ylim=c(minval, maxval))
         axis(1,at=c(1,length(portionlist_profile[[1]])/2 +0.5,length(portionlist_profile[[1]])),labels=c("start","center","end"))
         for(i in 1:length(portionlist_profile)){
-          lines(portionlist_profile[[i]],lwd=2,col=color_distinct[i])
+          lines(portionlist_profile[[i]],lwd=3,col=color_distinct[i])
         }
-        legend("bottom",inset=c(0,-0.5),legend=names(portionlist),col=color_distinct,lty=rep(1,length(color_distinct)),cex=0.6,bg="transparent")   
+        legend("bottom",inset=c(0,-0.5),legend=names(portionlist),col=color_distinct,lty=rep(1,length(color_distinct)),cex=0.6,bg="transparent",lwd=3)   
       })
 
       #PDF download button for profiles
@@ -4899,9 +5004,9 @@ output$saveprofileProfilesAndBoxbutton<- downloadHandler(
         plot(1, type="n", xlab="",xaxt="n", ylab=yl, xlim=c(1, length(portionlist_profile[[1]])), ylim=c(minval, maxval))
         axis(1,at=c(1,length(portionlist_profile[[1]])/2 +0.5,length(portionlist_profile[[1]])),labels=c("start","center","end"))
         for(i in 1:length(portionlist_profile)){
-          lines(portionlist_profile[[i]],lwd=2,col=toplot$profileAndBoxes$color_distinct[i])
+          lines(portionlist_profile[[i]],lwd=3,col=toplot$profileAndBoxes$color_distinct[i])
         }
-        legend("bottom",inset=c(0,-0.25),legend=names(portionlist_profile),col=toplot$profileAndBoxes$color_distinct,lty=rep(1,length(toplot$profileAndBoxes$color_distinct)),cex=0.6,bg="transparent")   
+        legend("bottom",inset=c(0,-0.25),legend=names(portionlist_profile),col=toplot$profileAndBoxes$color_distinct,lty=rep(1,length(toplot$profileAndBoxes$color_distinct)),cex=0.6,bg="transparent",lwd=3)   
 
         dev.off()
   } 
@@ -5267,10 +5372,13 @@ observeEvent(input$plotDynamics,{
       roi_TES= unifyStrand(ROIvariables$listROI[[pos_TES]])   
       #get BAM for each roi of that genelist 
       rawvals_promoters=Enrichlist$rawcoverage[[pos_promoters]]
+      keyvals_promoters=Enrichlist$decryptkey[[pos_promoters]]
       normvals_promoters=Enrichlist$normfactlist[[pos_promoters]]
       rawvals_transcripts=Enrichlist$rawcoverage[[pos_transcripts]]
+      keyvals_transcripts=Enrichlist$decryptkey[[pos_transcripts]]
       normvals_transcripts=Enrichlist$normfactlist[[pos_transcripts]]
       rawvals_TES=Enrichlist$rawcoverage[[pos_TES]]
+      keyvals_TES=Enrichlist$decryptkey[[pos_TES]]
       normvals_TES=Enrichlist$normfactlist[[pos_TES]]
       BAM_promoters=names(rawvals_promoters)
       BAM_transcripts=names(rawvals_transcripts)      
@@ -5283,21 +5391,28 @@ observeEvent(input$plotDynamics,{
         pos_BAM_transcripts=which(BAMnametosearch==BAM_transcripts)
         pos_BAM_TES=which(BAMnametosearch==BAM_TES)
         content_promoters=rawvals_promoters[[pos_BAM_promoters]]
+        contentkeys_promoters=keyvals_promoters[[pos_BAM_promoters]]
         contentnorm_promoters=normvals_promoters[[pos_BAM_promoters]]
         content_transcripts=rawvals_transcripts[[pos_BAM_transcripts]]
+        contentkeys_transcripts=keyvals_transcripts[[pos_BAM_transcripts]]
         contentnorm_transcripts=normvals_transcripts[[pos_BAM_transcripts]]
         content_TES=rawvals_TES[[pos_BAM_TES]]
+        contentkeys_TES=keyvals_TES[[pos_BAM_TES]]
         contentnorm_TES=normvals_TES[[pos_BAM_TES]]
         #for this genelist (p,t,t) and BAM, for promoter, transcripts and TES, calculate
         #profiles and box on the promoters,gb,TES
         #calculate content_transcripts_mod for gb only, where you cut 30% AND TSS down and TES up
         #to remove 30%, thirtypercentToRemove= l*15/80, where l is the length already increased by 30%
 
+
+        #here I have to decrypt, because length of raw data already depends on decryption key
+        #content_transcripts=decryptcov(list(content_transcripts,contentkeys_transcripts),chunk=length(content_transcripts))
+
         #PROBLEM: if no elements on plus strand?!
         range_transcripts=getRange(roi_transcripts)
         smalllength=width(range_transcripts)
-        biglength=unlist(lapply(content_transcripts,length))
-        thirtypercent=(biglength-smalllength)/2
+        #biglength=unlist(lapply(content_transcripts,length))
+        thirtypercent=round((smalllength/10)*3)
 
         #repeated for each BAM, but the important thing is that is the same i (ROI)
         #required for the number of ranges each genelist have (for the legend)
@@ -5319,7 +5434,8 @@ observeEvent(input$plotDynamics,{
         tokeep=smalllength-(part_TSS+part_TES) > input$binsforDynamics
         smalllength=smalllength[tokeep]
         content_transcripts=content_transcripts[tokeep]
-        biglength=biglength[tokeep]
+        contentkeys_transcripts=contentkeys_transcripts[tokeep]
+        #biglength=biglength[tokeep]
         thirtypercent=thirtypercent[tokeep]
         range_transcripts=range_transcripts[tokeep]
         pos_plus=as.character(strand(range_transcripts))!="-"
@@ -5328,6 +5444,8 @@ observeEvent(input$plotDynamics,{
         thirtypercent_minus=thirtypercent[pos_minus]
         content_transcripts_plus=content_transcripts[pos_plus]
         content_transcripts_minus=content_transcripts[pos_minus]
+        contentkeys_transcripts_plus=contentkeys_transcripts[pos_plus]
+        contentkeys_transcripts_minus=contentkeys_transcripts[pos_minus]
         smalllength_plus=smalllength[pos_plus]
         smalllength_minus=smalllength[pos_minus]
         smalllength=c(smalllength_plus,smalllength_minus)
@@ -5338,17 +5456,21 @@ observeEvent(input$plotDynamics,{
         widthTES_reorder=c(widthTES_reorder_plus,widthTES_reorder_minus)
 
         #remove the 30% up/downstream and part of TSS and TES
+        #for new function, remove +1, remove -1 in cpp function, multiply by 2 if key=TRUE
         start_pos_plus=thirtypercent_plus+1+part_TSS
-        end_pos_plus=unlist(lapply(content_transcripts_plus,length))-thirtypercent_plus-part_TES
+        #end_pos_plus=unlist(lapply(content_transcripts_plus,length))-thirtypercent_plus-part_TES
+
+        end_pos_plus=smalllength_plus+thirtypercent_plus-part_TES
 
         start_pos_minus=thirtypercent_minus+1+part_TES
-        end_pos_minus=unlist(lapply(content_transcripts_minus,length))-thirtypercent_minus-part_TSS
-        
+        #end_pos_minus=unlist(lapply(content_transcripts_minus,length))-thirtypercent_minus-part_TSS
+        end_pos_minus=smalllength_minus+thirtypercent_minus-part_TSS
+
         #PROFILES
         
         #calc. matrixes for profiles, and invert negative strand
-        matcov_plus=makeMatrixFrombaseCoverage(content_transcripts_plus,Nbins=toplot$dynamics$nbin,Snorm=Snormalization,norm_factor=contentnorm_transcripts)
-        matcov_minus=makeMatrixFrombaseCoverage(content_transcripts_minus,Nbins=toplot$dynamics$nbin,Snorm=Snormalization,norm_factor=contentnorm_transcripts)
+        matcov_plus=makeMatrixFrombaseCoverage(content_transcripts_plus,Nbins=toplot$dynamics$nbin,Snorm=Snormalization,key=contentkeys_transcripts_plus,norm_factor=contentnorm_transcripts)
+        matcov_minus=makeMatrixFrombaseCoverage(content_transcripts_minus,Nbins=toplot$dynamics$nbin,Snorm=Snormalization,key=contentkeys_transcripts_minus,norm_factor=contentnorm_transcripts)
         
 
         #With "bamsignals" package, negative strand is already reversed at the beginning
@@ -5370,20 +5492,28 @@ observeEvent(input$plotDynamics,{
         content_transcripts_mod_plus=cutAndSumTranscripts(GRbaseCoverageOutput=content_transcripts_plus,
                                                       StartingPositions=start_pos_plus,
                                                       EndingPositions=end_pos_plus,
-                                                      norm_factor=contentnorm_transcripts)
+                                                      norm_factor=contentnorm_transcripts,
+                                                      key=contentkeys_transcripts_plus
+                                                      )
         content_transcripts_mod_minus=cutAndSumTranscripts(GRbaseCoverageOutput=content_transcripts_minus,
                                                       StartingPositions=start_pos_minus,
                                                       EndingPositions=end_pos_minus,
-                                                      norm_factor=contentnorm_transcripts)
+                                                      norm_factor=contentnorm_transcripts,
+                                                      key=contentkeys_transcripts_minus)
 
         #join mod plus and minus
         content_transcripts_mod=c(content_transcripts_mod_plus,content_transcripts_mod_minus)
         #BOXPLOTS
         #for boxplots, sum everything inside TSS,TES and the part of the transcripts cut before
 
-        totallist_boxplot[[1]][[i]][[k]]=sapply(content_promoters[tokeep],sum)*contentnorm_promoters
+        #content_promoters=decryptcov(list(content_promoters,contentkeys_promoters),chunk=length(content_promoters))
+        content_promoters=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=content_promoters,Nbins=1,Snorm=FALSE,key=contentkeys_promoters,norm_factor=contentnorm_promoters)
+        content_TES=makeMatrixFrombaseCoverage(GRbaseCoverageOutput=content_TES,Nbins=1,Snorm=FALSE,key=contentkeys_TES,norm_factor=contentnorm_TES)
+        #content_TES=decryptcov(list(content_TES,contentkeys_TES),chunk=length(content_TES))
+
+        totallist_boxplot[[1]][[i]][[k]]=content_promoters[tokeep]
         totallist_boxplot[[2]][[i]][[k]]=content_transcripts_mod
-        totallist_boxplot[[3]][[i]][[k]]=sapply(content_TES[tokeep],sum)*contentnorm_TES
+        totallist_boxplot[[3]][[i]][[k]]=content_TES[tokeep]
 
         #STALLING INDEX
         #use content_transcripts_mod for gb previously calculated.
@@ -5415,8 +5545,10 @@ observeEvent(input$plotDynamics,{
       }
     }
 
-    randomcolors = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
-    cols=sample(randomcolors,length(input$genelistsforDynamics)*length(input$BAMforDynamics))
+    #randomcolors = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
+    #cols=sample(randomcolors,length(input$genelistsforDynamics)*length(input$BAMforDynamics))
+    cols=colors_list[1:(length(input$genelistsforDynamics)*length(input$BAMforDynamics))]
+
     toplot$dynamics$cols=cols
     toplot$dynamics$ylabel=ylabel
     toplot$dynamics$totallist_profile=totallist_profile
@@ -5468,15 +5600,15 @@ observeEvent(input$plotDynamics,{
       for(i in 1:length(totallist_profile)){
         for(k in 1:length(totallist_profile[[i]])){
           if(input$islogforDynamics){
-            lines( log2(totallist_profile[[i]][[k]]),lwd=2,col= toplot$dynamics$cols[count],pch=".",cex=2,xaxt="n")
+            lines( log2(totallist_profile[[i]][[k]]),lwd=3,col= toplot$dynamics$cols[count],pch=".",cex=2,xaxt="n")
           }else{
-            lines(totallist_profile[[i]][[k]],lwd=2,col= toplot$dynamics$cols[count],pch=".",cex=2,xaxt="n")
+            lines(totallist_profile[[i]][[k]],lwd=3,col= toplot$dynamics$cols[count],pch=".",cex=2,xaxt="n")
           }
           count=count+1
         }
       }
 
-      legend("topright",legend=totalnames,col= toplot$dynamics$cols,lty=rep(1,length(totalnames)),bg="transparent")  
+      legend("topright",legend=totalnames,col= toplot$dynamics$cols,lty=rep(1,length(totalnames)),bg="transparent",lwd=3)  
 
     })
 
@@ -5645,11 +5777,11 @@ observeEvent(input$plotDynamics,{
         vals=sort(log2(list2[[i]]))
         vals=vals[!is.infinite(vals)]
         vals=vals[vals<quantile(vals,1-outlayer_thresh) & vals>quantile(vals,outlayer_thresh)]
-        lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=2)
+        lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=3)
       }
 
 
-      legend("bottom",inset=c(0,-0.4),legend=totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(totalnames)))
+      legend("bottom",inset=c(0,-0.4),legend=totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(totalnames)),lwd=3)
 
     })
 
@@ -5692,10 +5824,10 @@ observeEvent(input$plotDynamics,{
       	vals=sort(log2(list2[[i]]))
       	vals=vals[!is.infinite(vals)]
       	vals=vals[vals<quantile(vals,1-outlayer_thresh) & vals>quantile(vals,outlayer_thresh)]
-        lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=2)
+        lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=3)
       }
 
-      legend("bottom",inset=c(0,-0.4),legend=totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(totalnames)))
+      legend("bottom",inset=c(0,-0.4),legend=totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(totalnames)),lwd=3)
 
     })
 
@@ -5742,9 +5874,9 @@ observeEvent(input$plotDynamics,{
         vals=sort(log2(list2[[i]]))
         vals=vals[!is.infinite(vals)]
         vals=vals[vals<quantile(vals,1-outlayer_thresh) & vals>quantile(vals,outlayer_thresh)]
-        lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=2)
+        lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=3)
       }
-      legend("bottom",inset=c(0,-0.4),legend=totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(totalnames)))
+      legend("bottom",inset=c(0,-0.4),legend=totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(totalnames)),lwd=3)
     })
 
     #buttons for downloads of PDF
@@ -5822,14 +5954,14 @@ output$saveprofileDynamicsbutton<- downloadHandler(
     for(i in 1:length(toplot$dynamics$totallist_profile)){
       for(k in 1:length(toplot$dynamics$totallist_profile[[i]])){
         if(input$islogforDynamics){
-          lines( log2(toplot$dynamics$totallist_profile[[i]][[k]]),lwd=2,col= toplot$dynamics$cols[count],pch=".",cex=2,xaxt="n")
+          lines( log2(toplot$dynamics$totallist_profile[[i]][[k]]),lwd=3,col= toplot$dynamics$cols[count],pch=".",cex=2,xaxt="n")
         }else{
-          lines(toplot$dynamics$totallist_profile[[i]][[k]],lwd=2,col= toplot$dynamics$cols[count],pch=".",cex=2,xaxt="n")
+          lines(toplot$dynamics$totallist_profile[[i]][[k]],lwd=3,col= toplot$dynamics$cols[count],pch=".",cex=2,xaxt="n")
         }
         count=count+1
       }
     }
-    legend("topright",legend=toplot$dynamics$totalnames,col= toplot$dynamics$cols,lty=rep(1,length(toplot$dynamics$totalnames)),bg="transparent")  
+    legend("topright",legend=toplot$dynamics$totalnames,col= toplot$dynamics$cols,lty=rep(1,length(toplot$dynamics$totalnames)),bg="transparent",lwd=3)  
 
     dev.off()
   } 
@@ -6123,10 +6255,10 @@ output$saveSITSSDynamicsbutton<- downloadHandler(
       vals=sort(log2(list2[[i]]))
       vals=vals[!is.infinite(vals)]
       vals=vals[vals<quantile(vals,1-outlayer_thresh) & vals>quantile(vals,outlayer_thresh)]
-      lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=2)
+      lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=3)
     }
 
-    legend("bottom",inset=c(0,-0.4),legend=toplot$dynamics$totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(toplot$dynamics$totalnames)))      
+    legend("bottom",inset=c(0,-0.4),legend=toplot$dynamics$totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(toplot$dynamics$totalnames)),lwd=3)      
     dev.off()
   } 
 )
@@ -6176,10 +6308,10 @@ output$saveSIGBDynamicsbutton<- downloadHandler(
       vals=sort(log2(list2[[i]]))
       vals=vals[!is.infinite(vals)]
       vals=vals[vals<quantile(vals,1-outlayer_thresh) & vals>quantile(vals,outlayer_thresh)]
-      lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=2)
+      lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=3)
     }
 
-    legend("bottom",inset=c(0,-0.4),legend=toplot$dynamics$totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(toplot$dynamics$totalnames)))      
+    legend("bottom",inset=c(0,-0.4),legend=toplot$dynamics$totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(toplot$dynamics$totalnames)),lwd=3)      
 
     dev.off()
   } 
@@ -6228,9 +6360,9 @@ output$saveSISIDynamicsbutton<- downloadHandler(
       vals=sort(log2(list2[[i]]))
       vals=vals[!is.infinite(vals)]
       vals=vals[vals<quantile(vals,1-outlayer_thresh) & vals>quantile(vals,outlayer_thresh)]
-      lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=2)
+      lines(vals,1:length(vals),col=toplot$dynamics$cols[i],lwd=3)
     }
-    legend("bottom",inset=c(0,-0.4),legend=toplot$dynamics$totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(toplot$dynamics$totalnames)))      
+    legend("bottom",inset=c(0,-0.4),legend=toplot$dynamics$totalnames,col=toplot$dynamics$cols,cex=0.6,bg="transparent",pch=rep(19,length(toplot$dynamics$totalnames)),lwd=3)      
 
     dev.off()
   } 

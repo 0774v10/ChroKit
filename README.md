@@ -89,6 +89,7 @@ For further instructions, go to https://hub.docker.com/r/ocroci/chrokit
   - ppcor
   - Rcpp
   - bamsignals
+  - qs
 
 Note: if the error *"Bioconductor version X.X requires R version Y.Y"* is displayed in the R console, it means that the bioconductor version is not compatible with the version of the installed R interpreter. To solve this, edit the *installChrokitDependencies.R* text file and change the variable **bioCversion** to insert the version number compatible with your R interpreter. 
 For example, R 4.0 is compatible with bioconductor version 3.11. In that case, change the default value:\

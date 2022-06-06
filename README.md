@@ -87,7 +87,8 @@ For further instructions, go to https://hub.docker.com/r/ocroci/chrokit
   - RColorBrewer
   - Rsamtools
   - ppcor
-  - inline
+  - Rcpp
+  - bamsignals
 
 Note: if the error *"Bioconductor version X.X requires R version Y.Y"* is displayed in the R console, it means that the bioconductor version is not compatible with the version of the installed R interpreter. To solve this, edit the *installChrokitDependencies.R* text file and change the variable **bioCversion** to insert the version number compatible with your R interpreter. 
 For example, R 4.0 is compatible with bioconductor version 3.11. In that case, change the default value:\
@@ -99,10 +100,10 @@ and source the *installChrokitDependencies.R* script again, by typing the follow
 
 ### Basic setup
 Some parameters could be set in the **shinyapp.r** script, such as the listening port or the number of cores, as well as the colors available for the heatmaps.
-- The variable **Port** specify the listening port of the program. Default: 6060.
-- The variable **nc** specify the number of cores that will be used for computation. The higher the number, the faster the program will be, but it will require more RAM. Windows users will always use 1 single core for operations because of technical issues.
-- The variable **ColsArray** specify all colors available in the palettes for heatmaps (gradient from white)
-- The variable **bioCversion** specify the appropriate version of Bioconductor for your R interpreter for the download of databases
+- The variable **Port** specifies the listening port of the program. Default: 6060.
+- The variable **nc** specifies the number of cores that will be used for computation. The higher the number, the faster the program will be, but it will require more RAM. Windows users will always use 1 single core for operations because of technical issues.
+- The variable **RAM_system** specifies the amount of RAM available on the system in Gb. Recommended: 4.
+- The variable **ColsArray** specifies all colors available in the palettes for heatmaps (gradient from white)
 
 # Launch the program
 - Launch the application by typing the following command in the R console (make sure you are in the directory in which ChroKit source code was installed):\

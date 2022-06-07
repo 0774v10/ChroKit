@@ -902,6 +902,7 @@ observe({
                       actionButton("saveNotesROI", "save notes"),
                       downloadButton('downloadNotesROI', 'Download notes'))
         output$previewROItodownload<-renderUI({windowNotesToShow})
+        output$previewROItodownloadbutton<-renderUI({NULL})
         listGUI<-list(paste(""))
       }  
 

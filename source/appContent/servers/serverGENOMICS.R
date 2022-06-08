@@ -2152,7 +2152,7 @@ observeEvent(toListenDigitalHeat(),{
         
         toplot$digital$freq_overlap=freq_overlap
         toplot$digital$length_subsets=length_subsets
-        color_distinct_bias=colors_list[1:length(freq_overlap)*length(freq_overlap[[1]])]
+        color_distinct_bias=colors_list[1: (length(freq_overlap)*length(freq_overlap[[1]])) ]
         #color_distinct_bias=sample(color, length(freq_overlap)*length(freq_overlap[[1]]))
         toplot$digital$color_distinct_bias=color_distinct_bias
 

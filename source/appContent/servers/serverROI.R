@@ -425,8 +425,8 @@ observeEvent(input$resizeROI,{
                   toadd=paste("resized to window [-",input$sliderUpstreamROI,"; +",input$sliderDownstreamROI,"] from the end",sep="")
 
                   #resize plus strand
-                  start(roi_positive)=oldstarts_positive-newstart
-                  end(roi_positive)=oldstarts_positive+newend
+                  start(roi_positive)=oldends_positive-newstart
+                  end(roi_positive)=oldends_positive+newend
                   #resize negative strand
                   start(roi_negative)=oldstarts_negative-newend
                   end(roi_negative)=oldstarts_negative+newstart
@@ -2812,6 +2812,7 @@ observeEvent(toListenGO(),{
     #extract -log10 padj values of the matrix 
     #this block can remain. It is removing NA,infinite from matrix and creating padj matrix
     #the important thing is that the order keeps the same
+
     partdfpadj=mat[,grepl("_padj$",colnames(mat)),drop=FALSE]
     partdfpadj=-log10(partdfpadj)
     #remove inf and NA values
@@ -2948,7 +2949,6 @@ observe({
       #here we should filter also padj matrix... or recreate it from filtered matrix...
       toplot$GOvariables$partdfpadj=partdfpadj
       toplot$GOvariables$completemat=mat
-
       if(ncol(partdfpadj)>1){
         #multiplying factor for height(n ROIs,=>ncol)
         if(ncol(partdfpadj)<10){

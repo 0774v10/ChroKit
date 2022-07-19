@@ -1396,10 +1396,13 @@ GRbaseCoverage2<-function(Object, signalfile,signalfileNorm=NULL,signalControl=N
         #find positions of Object that have that chromosome
         #opening chromosome by chromosome
         pos=as.character(seqnames(Object))==common_chromosomes[i]
-        wigtempchr=import(signalfile,which=Object[pos],as = 'Rle')
-        pos_neg=as.logical(strand(Object[pos])=="-")
+        tempObj=Object[pos]
+        #attrib to tempObj the seqlevels==seqnames
+        seqlevels(tempObj)=as.character(unique(seqnames(tempObj)))
+        wigtempchr=import(signalfile,which=tempObj,as = 'Rle')
+        pos_neg=as.logical(strand(tempObj)=="-")
         #count coverage for that chromosome in wig in the Object ranges in the same chromosome
-        counts=Views(unlist(wigtempchr[[common_chromosomes[i]]]),ranges(Object[pos]))
+        counts=Views(unlist(wigtempchr[[common_chromosomes[i]]]),ranges(tempObj))
         rm(wigtempchr)
         #extract the base coverage for all those ranges for ith chromosome.
         #used "as.integer" to save space: all numbers are pure integers

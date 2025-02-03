@@ -341,7 +341,7 @@ LogicalVector verifyzerocov(List covresult){
          //Rcpp::NumericVector y(covresult[i]); 
          int rangelen=y.size();
          // start from 1-based position (maybe Rcpp is 1-based)
-         for(int k=1; k<= rangelen; k++){
+         for(int k=0; k< rangelen; k++){
           tempsum+=y[k];
          }
 
